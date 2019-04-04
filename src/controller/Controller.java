@@ -220,6 +220,7 @@ public class Controller {
 	}
 
 	public int loadMovingViolationsXMes(String movingViolationsFile, boolean otroAtributo) {
+		int numCargados=0;
 		JsonParser parser = new JsonParser();
 		try 
 		{
@@ -328,7 +329,9 @@ public class Controller {
 				//VOMovingViolations newVO = new VOMovingViolations(OBJECTID, LOCATION, ADDRESS_ID, STREETSEGID, FINEAMT, TOTALPAID, PENALTY1, ACCIDENTINDICATOR, TICKETISSUEDATE, VIOLATIONCODE, VIOLATIONDESC);
 				System.out.println("creó el objeto");
 				//moving.add(newVO);
+				numCargados++;
 				System.out.println("Agrego en moving");
+				
 				/*movLP.put(""+ADDRESS_ID, newVO);
 				System.out.println("Agrego en LC");
 				movSC.put(""+ADDRESS_ID, newVO);
@@ -343,7 +346,7 @@ public class Controller {
 			System.out.println(e.getStackTrace().toString());
 			System.out.println(e.getMessage());
 		}
-		return 0;
+		return numCargados;
 
 	}
 	/**
