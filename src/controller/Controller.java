@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.FileReader;
+
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -13,16 +14,17 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import model.data_structures.ArregloDinamico;
 import model.data_structures.BST;
 import model.data_structures.IQueue;
 import model.data_structures.IStack;
 import model.data_structures.MaxColaPrioridad;
 import model.data_structures.TablaHash;
-import model.logic.JsonArray;
-import model.logic.JsonElement;
-import model.logic.JsonObject;
-import model.logic.JsonParser;
 import model.vo.LocationVO;
 import model.vo.VODaylyStatistic;
 import model.vo.VOGeographicLocation;
@@ -323,14 +325,15 @@ public class Controller {
 					System.out.print("k");
 				}
 				System.out.println("Linea : "+i);
-				VOMovingViolations newVO = new VOMovingViolations(OBJECTID, LOCATION, ADDRESS_ID, STREETSEGID, FINEAMT, TOTALPAID, PENALTY1, ACCIDENTINDICATOR, TICKETISSUEDATE, VIOLATIONCODE, VIOLATIONDESC);
+				//VOMovingViolations newVO = new VOMovingViolations(OBJECTID, LOCATION, ADDRESS_ID, STREETSEGID, FINEAMT, TOTALPAID, PENALTY1, ACCIDENTINDICATOR, TICKETISSUEDATE, VIOLATIONCODE, VIOLATIONDESC);
 				System.out.println("creó el objeto");
-				moving.add(newVO);
+				//moving.add(newVO);
 				System.out.println("Agrego en moving");
 				/*movLP.put(""+ADDRESS_ID, newVO);
 				System.out.println("Agrego en LC");
 				movSC.put(""+ADDRESS_ID, newVO);
 				System.out.println("Agrego en SC");*/
+				
 				
 			}
 
@@ -340,6 +343,7 @@ public class Controller {
 			System.out.println(e.getStackTrace().toString());
 			System.out.println(e.getMessage());
 		}
+		return 0;
 
 	}
 	/**
