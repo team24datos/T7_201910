@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.FileReader;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -18,6 +19,10 @@ import model.data_structures.IQueue;
 import model.data_structures.IStack;
 import model.data_structures.MaxColaPrioridad;
 import model.data_structures.TablaHash;
+import model.logic.JsonArray;
+import model.logic.JsonElement;
+import model.logic.JsonObject;
+import model.logic.JsonParser;
 import model.vo.LocationVO;
 import model.vo.VODaylyStatistic;
 import model.vo.VOGeographicLocation;
@@ -213,85 +218,129 @@ public class Controller {
 	}
 
 	public int loadMovingViolationsXMes(String movingViolationsFile, boolean otroAtributo) {
-		System.out.println("");
-		System.out.println("Se está cargando: "+movingViolationsFile);
-		int numCargados=0;
-		int linea = 0;
-		try {
+		JsonParser parser = new JsonParser();
+		try 
+		{
+			System.out.println("Mes:" + movingViolationsFile);
 			Reader reader = Files.newBufferedReader(Paths.get(movingViolationsFile));
-			CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
-
-
-			for (CSVRecord csvRecord : csvParser) {
-				linea++;
-				if (linea == 1)
-					continue;
-
+			JsonArray arreglo = (JsonArray)parser.parse(new FileReader(movingViolationsFile));
+			
+			System.out.println("Num Elementos:" + arreglo.size());
+			for(int i=0; arreglo != null && i < arreglo.size(); i++)
+			{
+				JsonObject objeto = (JsonObject)arreglo.get(i);
+				//------------------------------------
+				//------ Lectura de atributos de la infracción
+				//------------------------------------
+				//VOMovingViolations newVO = new VOMovingViolations(LOCATION,Double.parseDouble(FINEAMT), TICKETISSUEDATE, ACCIDENTINDICATOR, VIOLATIONDESC, 
+				//VIOLATIONCODE,STREETSEGID,ADDRESS_ID, Integer.parseInt(OBJECTID), Double.parseDouble(TOTALPAID), PENALTY1 , PENALTY2 ) ;
+				int OBJECTID=0;
+				JsonElement elementoID = objeto.get("OBJECTID");
+				if(elementoID!=null && !elementoID.isJsonNull())
 				{
-					// Accessing Values by Column Index
-					String OBJECTID =  csvRecord.get(0);
-					if(OBJECTID.contains(","))
-						continue;
-					int pOBJECTID=OBJECTID.equals("")?0:Integer.parseInt(OBJECTID);
-					//String ROW_ = csvRecord.get(1);
-					String LOCATION = csvRecord.get(2);
-
-					String STREETSEGID = csvRecord.get(4);  
-					String ADDRESS_ID = csvRecord.get(3).equals("")?STREETSEGID:csvRecord.get(3); 
-
-					int pADDRESS_ID =ADDRESS_ID.equals("")?0:Integer.parseInt(ADDRESS_ID);
-					int pSTREETSEGID=STREETSEGID.equals("")?0:Integer.parseInt(STREETSEGID);
-
-					String XCOORD = csvRecord.get(5);
-					String YCOORD = csvRecord.get(6);
-					Double x = XCOORD.equals("")?0.0:Double.parseDouble(XCOORD);
-					Double y = YCOORD.equals("")?0.0:Double.parseDouble(YCOORD);
-					/*int n=0;
-					if(n<20)
-					{
-						System.out.println(x+","+y);
-						n++;
-					}
-
-					int i=0;
-					int j=0;
-					int k=0;
-					int l=0;*/
-					
-					//Rectangulo Min y Max
-					if(x>Xmax){Xmax=x;/*if(i<20){System.out.println("xmax");i++;}*/}
-					if(y>Ymax){Ymax=y;/*if(j<20){System.out.println("ymax");j++;}*/}
-					if(x<Xmin){Xmin=x;/*if(k<20){System.out.println("xmin");k++;}*/}
-					if(y<Ymin){Ymin=y;/*if(l<20){System.out.println("ymin");l++;}*/}
-					//String TICKETTYPE = csvRecord.get(7);
-
-					String FINEAMT = csvRecord.get(8);
-					String TOTALPAID = csvRecord.get(9);
-
-					Double pFINEAMT=FINEAMT.equals("")?0:Double.parseDouble(FINEAMT);
-					Double pTOTALPAID=TOTALPAID.equals("")?0:Double.parseDouble(TOTALPAID);
-					/*String PENALTY1 = csvRecord.get(10);
-					String PENALTY2 = csvRecord.get(11);*/					
-					String ACCIDENTINDICATOR = csvRecord.get(12);
-					boolean pACCIDENTINDICATOR=ACCIDENTINDICATOR.equalsIgnoreCase("Yes")?true:false;
-					String TICKETISSUEDATE =  !otroAtributo ? csvRecord.get(13).toString() : csvRecord.get(14);
-					String VIOLATIONDESC = !otroAtributo ? csvRecord.get(15).toString() :  csvRecord.get(16);
-					String VIOLATIONCODE = !otroAtributo ? csvRecord.get(14).toString() :  csvRecord.get(15);
-					//System.out.println(OBJECTID + "," + LOCATION +  "," + ADDRESS_ID + "," + STREETSEGID);
-					VOMovingViolations newMoving = new VOMovingViolations(pOBJECTID,LOCATION,pADDRESS_ID,pSTREETSEGID,pFINEAMT,pTOTALPAID,pACCIDENTINDICATOR,TICKETISSUEDATE,VIOLATIONCODE,VIOLATIONDESC, x, y);
-					numCargados++;
-					//moving.add(listaa);
+					OBJECTID=elementoID.getAsInt();
+					System.out.print("a");
 				}
+				
+				String LOCATION="";
+				JsonElement LOCATIONelemento = objeto.get("LOCATION");
+				if(LOCATIONelemento!=null && !LOCATIONelemento.isJsonNull())
+				{
+					LOCATION=LOCATIONelemento.getAsString();
+					System.out.print("b");
+				}
+				
+				int ADDRESS_ID = 0;
+				JsonElement ADDRESS_IDelemento = objeto.get("ADDRESS_ID");
+				if(ADDRESS_IDelemento!=null && !ADDRESS_IDelemento.isJsonNull())
+				{
+					//System.out.println("["+ADDRESS_IDelemento.getAsString()+"]");
+					ADDRESS_ID=ADDRESS_IDelemento.getAsInt();
+					System.out.print("c");
+				}
+				
+				int STREETSEGID = 0;
+				JsonElement STREETSEGIDelemento = objeto.get("STREETSEGID");
+				if(STREETSEGIDelemento!=null && !STREETSEGIDelemento.isJsonNull())
+				{
+					STREETSEGID=STREETSEGIDelemento.getAsInt();
+					System.out.print("d");
+				}
+
+				double FINEAMT = 0.0;
+				JsonElement FINEAMTelemento = objeto.get("FINEAMT");
+				if(FINEAMTelemento!=null && !FINEAMTelemento.isJsonNull())
+				{
+					FINEAMT=FINEAMTelemento.getAsDouble();
+					System.out.print("e");
+				}
+				
+				double TOTALPAID = 0.0;
+				JsonElement TOTALPAIDelemento = objeto.get("TOTALPAID");
+				if(TOTALPAIDelemento!=null && !TOTALPAIDelemento.isJsonNull())
+				{
+					TOTALPAID=TOTALPAIDelemento.getAsDouble();
+					System.out.print("f");
+				}
+				
+				double PENALTY1 = 0.0;
+				JsonElement PENALTY1elemento = objeto.get("PENALTY1");
+				if(PENALTY1elemento!=null && !PENALTY1elemento.isJsonNull())
+				{
+					PENALTY1=PENALTY1elemento.getAsDouble();
+					System.out.print("g");
+				}
+				
+				boolean ACCIDENTINDICATOR=false;
+				JsonElement ACCIDENTINDICATORelemento = objeto.get("ACCIDENTINDICATOR");
+				if(ACCIDENTINDICATORelemento!=null && !ACCIDENTINDICATORelemento.isJsonNull())
+				{
+					ACCIDENTINDICATOR=ACCIDENTINDICATORelemento.getAsString()=="Yes"?true:false;
+					System.out.print("h");
+				}
+				
+				String TICKETISSUEDATE="";
+				JsonElement TICKETISSUEDATEelemento = objeto.get("TICKETISSUEDATE");
+				if(TICKETISSUEDATEelemento!=null && !TICKETISSUEDATEelemento.isJsonNull())
+				{
+					TICKETISSUEDATE=TICKETISSUEDATEelemento.getAsString();
+					System.out.print("i");
+				}
+				
+				String VIOLATIONCODE="";
+				JsonElement VIOLATIONCODEelemento = objeto.get("VIOLATIONCODE");
+				if(VIOLATIONCODEelemento!=null && !VIOLATIONCODEelemento.isJsonNull())
+				{
+					VIOLATIONCODE=VIOLATIONCODEelemento.getAsString();
+					System.out.print("j");
+				}
+				
+				String VIOLATIONDESC="";
+				JsonElement VIOLATIONDESCelemento = objeto.get("VIOLATIONDESC");
+				if(VIOLATIONDESCelemento!=null && !VIOLATIONDESCelemento.isJsonNull())
+				{
+					VIOLATIONDESC=VIOLATIONDESCelemento.getAsString();
+					System.out.print("k");
+				}
+				System.out.println("Linea : "+i);
+				VOMovingViolations newVO = new VOMovingViolations(OBJECTID, LOCATION, ADDRESS_ID, STREETSEGID, FINEAMT, TOTALPAID, PENALTY1, ACCIDENTINDICATOR, TICKETISSUEDATE, VIOLATIONCODE, VIOLATIONDESC);
+				System.out.println("creó el objeto");
+				moving.add(newVO);
+				System.out.println("Agrego en moving");
+				/*movLP.put(""+ADDRESS_ID, newVO);
+				System.out.println("Agrego en LC");
+				movSC.put(""+ADDRESS_ID, newVO);
+				System.out.println("Agrego en SC");*/
+				
 			}
+
 		}
 		catch (Exception e)
 		{
-			System.out.println("AQUI - linea" + linea);
 			System.out.println(e.getStackTrace().toString());
 			System.out.println(e.getMessage());
 		}
-		System.out.println("El total de infracciones del mes fue: "+numCargados);
-		return numCargados;
+
 	}
 	/**
 	 *  Parte A 
