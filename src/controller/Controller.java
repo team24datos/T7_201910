@@ -10,10 +10,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -93,11 +89,11 @@ public class Controller {
 
 				System.out.println("");
 				System.out.println("El total de infracciones del semestre fue: "+numCargados);
-				System.out.println("La zona geográfica Minimax es: ("+Xmin+","+Ymin+") y ("+Xmax+","+Ymax+")");
+				System.out.println("La zona geogrï¿½fica Minimax es: ("+Xmin+","+Ymin+") y ("+Xmax+","+Ymax+")");
 				break;
 
 			case 1:
-				view.printMessage("Ingrese el número N de franjas horarias deseadas");
+				view.printMessage("Ingrese el nï¿½mero N de franjas horarias deseadas");
 				int N1 = sc.nextInt();
 				controller.getNFranjas(N1);
 				break;
@@ -124,7 +120,7 @@ public class Controller {
 
 			case 4:
 
-				view.printMessage("Ingrese el número N de franjas horarias deseadas");
+				view.printMessage("Ingrese el nï¿½mero N de franjas horarias deseadas");
 				int N4 = sc.nextInt();
 				MaxColaPrioridad<VOMovingViolations> resultados4 = controller.getNTipos(N4);
 				view.printPrioQueue(resultados4);
@@ -156,11 +152,11 @@ public class Controller {
 				view.printMessage("Ingrese la hora final (Ej: 23)");
 				int horaFinal9 = sc.nextInt();*/
 				//TODO
-				view.printMessage("Ingrese el código");
+				view.printMessage("Ingrese el cï¿½digo");
 				String code =sc.next();
 				int resultado9 = controller.countMovingViolationsByCode(code);
 
-				view.printMessage("Número de infracciones: " + resultado9);
+				view.printMessage("Nï¿½mero de infracciones: " + resultado9);
 				break;
 
 			case 10:
@@ -233,7 +229,7 @@ public class Controller {
 			{
 				JsonObject objeto = (JsonObject)arreglo.get(i);
 				//------------------------------------
-				//------ Lectura de atributos de la infracción
+				//------ Lectura de atributos de la infracciï¿½n
 				//------------------------------------
 				//VOMovingViolations newVO = new VOMovingViolations(LOCATION,Double.parseDouble(FINEAMT), TICKETISSUEDATE, ACCIDENTINDICATOR, VIOLATIONDESC, 
 				//VIOLATIONCODE,STREETSEGID,ADDRESS_ID, Integer.parseInt(OBJECTID), Double.parseDouble(TOTALPAID), PENALTY1 , PENALTY2 ) ;
@@ -327,7 +323,7 @@ public class Controller {
 				}
 				System.out.println("Linea : "+i);
 				//VOMovingViolations newVO = new VOMovingViolations(OBJECTID, LOCATION, ADDRESS_ID, STREETSEGID, FINEAMT, TOTALPAID, PENALTY1, ACCIDENTINDICATOR, TICKETISSUEDATE, VIOLATIONCODE, VIOLATIONDESC);
-				System.out.println("creó el objeto");
+				System.out.println("creï¿½ el objeto");
 				//moving.add(newVO);
 				numCargados++;
 				System.out.println("Agrego en moving");
