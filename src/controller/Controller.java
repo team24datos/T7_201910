@@ -89,11 +89,11 @@ public class Controller {
 
 				System.out.println("");
 				System.out.println("El total de infracciones del semestre fue: "+numCargados);
-				System.out.println("La zona geogrï¿½fica Minimax es: ("+Xmin+","+Ymin+") y ("+Xmax+","+Ymax+")");
+				//System.out.println("La zona geográfica Minimax es: ("+Xmin+","+Ymin+") y ("+Xmax+","+Ymax+")");
 				break;
 
 			case 1:
-				view.printMessage("Ingrese el nï¿½mero N de franjas horarias deseadas");
+				view.printMessage("Ingrese el número N de franjas horarias deseadas");
 				int N1 = sc.nextInt();
 				controller.getNFranjas(N1);
 				break;
@@ -120,7 +120,7 @@ public class Controller {
 
 			case 4:
 
-				view.printMessage("Ingrese el nï¿½mero N de franjas horarias deseadas");
+				view.printMessage("Ingrese el número N de franjas horarias deseadas");
 				int N4 = sc.nextInt();
 				MaxColaPrioridad<VOMovingViolations> resultados4 = controller.getNTipos(N4);
 				view.printPrioQueue(resultados4);
@@ -342,6 +342,8 @@ public class Controller {
 			System.out.println(e.getStackTrace().toString());
 			System.out.println(e.getMessage());
 		}
+		System.out.println("El número de datos cargados en este mes fue: "+numCargados);
+		System.out.println("");
 		return numCargados;
 
 	}
