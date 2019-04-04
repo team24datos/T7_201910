@@ -32,29 +32,29 @@ public class Controller {
 
 	private MovingViolationsManagerView view;
 
-	public final static String mesEnero = "./data/Moving_Violations_Issued_in_January_2018.csv";
+	public final static String mesEnero = "./data/Moving_Violations_Issued_in_January_2018.json";
 
-	public final static String mesFebrero = "./data/Moving_Violations_Issued_in_February_2018.csv";
+	public final static String mesFebrero = "./data/Moving_Violations_Issued_in_February_2018.json";
 
-	public final static String mesMarzo = "./data/Moving_Violations_Issued_in_March_2018.csv";
+	public final static String mesMarzo = "./data/Moving_Violations_Issued_in_March_2018.json";
 
-	public final static String mesAbril = "./data/Moving_Violations_Issued_in_April_2018.csv";
+	public final static String mesAbril = "./data/Moving_Violations_Issued_in_April_2018.json";
 
-	public final static String mesMayo = "./data/Moving_Violations_Issued_in_May_2018.csv";
+	public final static String mesMayo = "./data/Moving_Violations_Issued_in_May_2018.json";
 
-	public final static String mesJunio = "./data/Moving_Violations_Issued_in_June_2018.csv";
+	public final static String mesJunio = "./data/Moving_Violations_Issued_in_June_2018.json";
 
-	public final static String mesJulio = "./data/Moving_Violations_Issued_in_July_2018.csv";
+	public final static String mesJulio = "./data/Moving_Violations_Issued_in_July_2018.json";
 
-	public final static String mesAgosto = "./data/Moving_Violations_Issued_in_August_2018.csv";
+	public final static String mesAgosto = "./data/Moving_Violations_Issued_in_August_2018.json";
 
-	public final static String mesSeptiembre = "./data/Moving_Violations_Issued_in_September_2018.csv";
+	public final static String mesSeptiembre = "./data/Moving_Violations_Issued_in_September_2018.json";
 
-	public final static String mesOctubre = "./data/Moving_Violations_Issued_in_October_2018.csv";
+	public final static String mesOctubre = "./data/Moving_Violations_Issued_in_October_2018.json";
 
-	public final static String mesNomviembre = "./data/Moving_Violations_Issued_in_November_2018.csv";
+	public final static String mesNomviembre = "./data/Moving_Violations_Issued_in_November_2018.json";
 
-	public final static String mesdiciembre= "./data/Moving_Violations_Issued_in_December_2018.csv";
+	public final static String mesdiciembre= "./data/Moving_Violations_Issued_in_December_2018.json";
 
 	public static Double Xmin, Ymin, Xmax, Ymax;
 
@@ -152,11 +152,11 @@ public class Controller {
 				view.printMessage("Ingrese la hora final (Ej: 23)");
 				int horaFinal9 = sc.nextInt();*/
 				//TODO
-				view.printMessage("Ingrese el cï¿½digo");
+				view.printMessage("Ingrese el código");
 				String code =sc.next();
 				int resultado9 = controller.countMovingViolationsByCode(code);
 
-				view.printMessage("Nï¿½mero de infracciones: " + resultado9);
+				view.printMessage("Número de infracciones: " + resultado9);
 				break;
 
 			case 10:
@@ -238,7 +238,7 @@ public class Controller {
 				if(elementoID!=null && !elementoID.isJsonNull())
 				{
 					OBJECTID=elementoID.getAsInt();
-					System.out.print("a");
+					//System.out.print("a");
 				}
 				
 				String LOCATION="";
@@ -246,7 +246,7 @@ public class Controller {
 				if(LOCATIONelemento!=null && !LOCATIONelemento.isJsonNull())
 				{
 					LOCATION=LOCATIONelemento.getAsString();
-					System.out.print("b");
+					//System.out.print("b");
 				}
 				
 				int ADDRESS_ID = 0;
@@ -255,7 +255,7 @@ public class Controller {
 				{
 					//System.out.println("["+ADDRESS_IDelemento.getAsString()+"]");
 					ADDRESS_ID=ADDRESS_IDelemento.getAsInt();
-					System.out.print("c");
+					//System.out.print("c");
 				}
 				
 				int STREETSEGID = 0;
@@ -263,7 +263,7 @@ public class Controller {
 				if(STREETSEGIDelemento!=null && !STREETSEGIDelemento.isJsonNull())
 				{
 					STREETSEGID=STREETSEGIDelemento.getAsInt();
-					System.out.print("d");
+					//System.out.print("d");
 				}
 
 				double FINEAMT = 0.0;
@@ -271,7 +271,7 @@ public class Controller {
 				if(FINEAMTelemento!=null && !FINEAMTelemento.isJsonNull())
 				{
 					FINEAMT=FINEAMTelemento.getAsDouble();
-					System.out.print("e");
+					//System.out.print("e");
 				}
 				
 				double TOTALPAID = 0.0;
@@ -279,7 +279,7 @@ public class Controller {
 				if(TOTALPAIDelemento!=null && !TOTALPAIDelemento.isJsonNull())
 				{
 					TOTALPAID=TOTALPAIDelemento.getAsDouble();
-					System.out.print("f");
+					//System.out.print("f");
 				}
 				
 				double PENALTY1 = 0.0;
@@ -287,7 +287,7 @@ public class Controller {
 				if(PENALTY1elemento!=null && !PENALTY1elemento.isJsonNull())
 				{
 					PENALTY1=PENALTY1elemento.getAsDouble();
-					System.out.print("g");
+					//System.out.print("g");
 				}
 				
 				boolean ACCIDENTINDICATOR=false;
@@ -295,7 +295,7 @@ public class Controller {
 				if(ACCIDENTINDICATORelemento!=null && !ACCIDENTINDICATORelemento.isJsonNull())
 				{
 					ACCIDENTINDICATOR=ACCIDENTINDICATORelemento.getAsString()=="Yes"?true:false;
-					System.out.print("h");
+					//System.out.print("h");
 				}
 				
 				String TICKETISSUEDATE="";
@@ -303,7 +303,7 @@ public class Controller {
 				if(TICKETISSUEDATEelemento!=null && !TICKETISSUEDATEelemento.isJsonNull())
 				{
 					TICKETISSUEDATE=TICKETISSUEDATEelemento.getAsString();
-					System.out.print("i");
+					//System.out.print("i");
 				}
 				
 				String VIOLATIONCODE="";
@@ -311,7 +311,7 @@ public class Controller {
 				if(VIOLATIONCODEelemento!=null && !VIOLATIONCODEelemento.isJsonNull())
 				{
 					VIOLATIONCODE=VIOLATIONCODEelemento.getAsString();
-					System.out.print("j");
+					//System.out.print("j");
 				}
 				
 				String VIOLATIONDESC="";
@@ -319,14 +319,14 @@ public class Controller {
 				if(VIOLATIONDESCelemento!=null && !VIOLATIONDESCelemento.isJsonNull())
 				{
 					VIOLATIONDESC=VIOLATIONDESCelemento.getAsString();
-					System.out.print("k");
+					//System.out.print("k");
 				}
-				System.out.println("Linea : "+i);
+				//System.out.println("Linea : "+i);
 				//VOMovingViolations newVO = new VOMovingViolations(OBJECTID, LOCATION, ADDRESS_ID, STREETSEGID, FINEAMT, TOTALPAID, PENALTY1, ACCIDENTINDICATOR, TICKETISSUEDATE, VIOLATIONCODE, VIOLATIONDESC);
-				System.out.println("creï¿½ el objeto");
+				//System.out.println("creó el objeto");
 				//moving.add(newVO);
 				numCargados++;
-				System.out.println("Agrego en moving");
+				//System.out.println("Agrego en moving");
 				
 				/*movLP.put(""+ADDRESS_ID, newVO);
 				System.out.println("Agrego en LC");
