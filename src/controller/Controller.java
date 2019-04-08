@@ -20,6 +20,7 @@ import model.data_structures.BST;
 import model.data_structures.IQueue;
 import model.data_structures.IStack;
 import model.data_structures.MaxColaPrioridad;
+import model.data_structures.RedBlackBST;
 import model.data_structures.TablaHash;
 import model.vo.LocationVO;
 import model.vo.VODaylyStatistic;
@@ -58,6 +59,7 @@ public class Controller {
 
 	public static Double Xmin, Ymin, Xmax, Ymax;
 
+	public RedBlackBST<String, VOMovingViolations> arbolbalanceado;
 
 	public Controller() {
 		view = new MovingViolationsManagerView();
@@ -89,11 +91,11 @@ public class Controller {
 
 				System.out.println("");
 				System.out.println("El total de infracciones del semestre fue: "+numCargados);
-				//System.out.println("La zona geográfica Minimax es: ("+Xmin+","+Ymin+") y ("+Xmax+","+Ymax+")");
+				//System.out.println("La zona geogrï¿½fica Minimax es: ("+Xmin+","+Ymin+") y ("+Xmax+","+Ymax+")");
 				break;
 
 			case 1:
-				view.printMessage("Ingrese el número N de franjas horarias deseadas");
+				view.printMessage("Ingrese el nï¿½mero N de franjas horarias deseadas");
 				int N1 = sc.nextInt();
 				controller.getNFranjas(N1);
 				break;
@@ -120,7 +122,7 @@ public class Controller {
 
 			case 4:
 
-				view.printMessage("Ingrese el número N de franjas horarias deseadas");
+				view.printMessage("Ingrese el nï¿½mero N de franjas horarias deseadas");
 				int N4 = sc.nextInt();
 				MaxColaPrioridad<VOMovingViolations> resultados4 = controller.getNTipos(N4);
 				view.printPrioQueue(resultados4);
@@ -152,11 +154,11 @@ public class Controller {
 				view.printMessage("Ingrese la hora final (Ej: 23)");
 				int horaFinal9 = sc.nextInt();*/
 				//TODO
-				view.printMessage("Ingrese el código");
+				view.printMessage("Ingrese el cï¿½digo");
 				String code =sc.next();
 				int resultado9 = controller.countMovingViolationsByCode(code);
 
-				view.printMessage("Número de infracciones: " + resultado9);
+				view.printMessage("Nï¿½mero de infracciones: " + resultado9);
 				break;
 
 			case 10:
@@ -323,7 +325,7 @@ public class Controller {
 				}
 				//System.out.println("Linea : "+i);
 				//VOMovingViolations newVO = new VOMovingViolations(OBJECTID, LOCATION, ADDRESS_ID, STREETSEGID, FINEAMT, TOTALPAID, PENALTY1, ACCIDENTINDICATOR, TICKETISSUEDATE, VIOLATIONCODE, VIOLATIONDESC);
-				//System.out.println("creó el objeto");
+				//System.out.println("creï¿½ el objeto");
 				//moving.add(newVO);
 				numCargados++;
 				//System.out.println("Agrego en moving");
@@ -342,7 +344,7 @@ public class Controller {
 			System.out.println(e.getStackTrace().toString());
 			System.out.println(e.getMessage());
 		}
-		System.out.println("El número de datos cargados en este mes fue: "+numCargados);
+		System.out.println("El nï¿½mero de datos cargados en este mes fue: "+numCargados);
 		System.out.println("");
 		return numCargados;
 

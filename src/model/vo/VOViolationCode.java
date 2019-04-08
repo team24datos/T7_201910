@@ -1,7 +1,7 @@
 package model.vo;
 
 public class VOViolationCode {
-
+   
 	public String getViolationCode() {
 		return "";
 	}
