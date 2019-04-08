@@ -87,7 +87,7 @@ public class Controller {
 			switch(option)
 			{
 			case 0:
-				view.printMessage("Ingrese el semestre (1 o 2)");
+				System.out.println("Ingrese el semestre (1 o 2)");
 				int numeroCuatrimestre = sc.nextInt();
 				int numCargados=controller.loadMovingViolations(numeroCuatrimestre);
 
@@ -97,93 +97,21 @@ public class Controller {
 				break;
 
 			case 1:
-				view.printMessage("Ingrese el n�mero N de franjas horarias deseadas");
-				int N1 = sc.nextInt();
-				controller.getNFranjas(N1);
+				System.out.println("Ingrese el OBJECT_ID de la infracción de la cual quiere obtener la información");
+				int objectid = sc.nextInt();
+				VOMovingViolations infraccion = controller.buscarInfraccion(objectid);
+				System.out.println(infraccion.toString());
+				
 				break;
 
 			case 2:
-				view.printMessage("Ingrese la coordenada x");
-				double X= sc.nextDouble();
-				view.printMessage("Ingrese la coordenada y");
-				double Y=sc.nextDouble();
-				TablaHash<Double,VOMovingViolations> r2 =controller.getMovingViolationsInXY(X,Y);
-				view.printMovingViolationsReq2(r2);
+				System.out.println("Ingrese el OBJECT_ID mínimo");
+				int min= sc.nextInt();
+				System.out.println("Ingrese el OBJECT_ID máximo");
+				int max=sc.nextInt();
 				break;
-
-			case 3:
-				view.printMessage("Ingrese la fecha con hora inicial (Ej : 28/03/2017)");
-				LocalDate fechaInicialReq3A = convertirFecha(sc.next());
-
-				view.printMessage("Ingrese la fecha con hora final (Ej : 28/03/2017)");
-				LocalDate fechaFinalReq3A = convertirFecha(sc.next());
-
-				BST<String, VOMovingViolations> r3=	controller.getMovingViolationsInRange(fechaInicialReq3A,fechaFinalReq3A);
-				view.printBST(r3);
-				break;
-
-			case 4:
-
-				view.printMessage("Ingrese el n�mero N de franjas horarias deseadas");
-				int N4 = sc.nextInt();
-				MaxColaPrioridad<VOMovingViolations> resultados4 = controller.getNTipos(N4);
-				view.printPrioQueue(resultados4);
-				break;
-
-			case 5:
-				//TODO
-				break;
-
-			case 6:
-
-				//TODO
-				break;
-
-			case 7:
-
-				//TODO
-				break;
-
-			case 8:
-				//TODO
-				break;
-
-			case 9:
-				/*
-				view.printMessage("Ingrese la hora inicial (Ej: 23)");
-				int horaInicial9 = sc.nextInt();
-
-				view.printMessage("Ingrese la hora final (Ej: 23)");
-				int horaFinal9 = sc.nextInt();*/
-				//TODO
-				view.printMessage("Ingrese el c�digo");
-				String code =sc.next();
-				int resultado9 = controller.countMovingViolationsByCode(code);
-
-				view.printMessage("N�mero de infracciones: " + resultado9);
-				break;
-
-			case 10:
-				//TODO
-				view.printMovingViolationsByHourReq10();
-				break;
-				/*
-			case 13:
-				view.printMessage("Ingrese la fecha inicial (Ej : 28/03/2017)");
-				LocalDate fechaInicial11 = convertirFecha(sc.next());
-
-				view.printMessage("Ingrese la fecha final (Ej : 28/03/2017)");
-				LocalDate fechaFinal11 = convertirFecha(sc.next());
-
-				double resultados11 = controller.totalDebt(fechaInicial11, fechaFinal11);
-				view.printMessage("Deuda total "+ resultados11);
-				break;
-
-			case 12:	
-				view.printTotalDebtbyMonthReq12();
-				break;*/
-
-			case 11:	
+			 
+			case 3:	
 				fin=true;
 				sc.close();
 				break;
@@ -342,6 +270,9 @@ public class Controller {
 				
 				
 			}
+			
+			System.out.println("El tamaño del árbol después de cargar los datos es : " + arbolbalanceado.size());
+			System.out.println("El elemento máximo es: " + arbolbalanceado.max() + ". y el elemento mínimo es: " + arbolbalanceado.min());
 
 		}
 		catch (Exception e)
@@ -354,103 +285,14 @@ public class Controller {
 		return numCargados;
 
 	}
-	/**
-	 *  Parte A 
-	 */
-	public MaxColaPrioridad<VOMovingViolations> getNFranjas(int N) {
-		// TODO R1
-		return null;
-	}
-
-	public TablaHash<Double,VOMovingViolations> getMovingViolationsInXY(double X,double Y)
-	{
-		// TODO R2
-		return null;
-	}
-
-	public BST<String, VOMovingViolations> getMovingViolationsInRange(LocalDate fechaInicialReq3A,
-			LocalDate fechaFinalReq3A) 
-	{
-		// TODO R3 		
-		return null;
-	}
-
-	/**
-	 * Parte B
-	 */
-	public MaxColaPrioridad<VOMovingViolations> getNTipos(int N) 
-	{
-		// TODO R4
-		return null;
-	}
-
-	public BST<VOGeographicLocation,VOMovingViolations> getBSTViolationsInXY(double x, double y) 
-	{
-		// TODO R5
-		return null;
-	}
-
-	public BST<Double, VOMovingViolations> getHoursFineInRange(LocalDate fechaInicial, LocalDate fechaFinal) 
-	{
-		// TODO R6
-		return null;
-	}
-
-	/**
-	 * Parte C
-	 */
-
-	public ArregloDinamico<LocationVO> getMovingViolationsByTotalPaid(String AddressID) 
-	{
-		// TODO R7
-		return null;
-	}
-
-	public BST<String,VOMovingViolations> getMovingViolationsByHour(int horaInicial7, int horaFinal7) 
-	{
-		// TODO R8
-		return null;
-	}
-
-	public BST<VOGeographicLocation, VOMovingViolations> getNGeoLocations(int N) {
-		// TODO R9
-		return null;
-	}
-
-	public int countMovingViolationsByCode(String ViolationCode) 
-	{
-		// TODO R10
-		return 0;
-	}
 	
-
-
-	/*
-	public IQueue <VODaylyStatistic> getDailyStatistics () {
-		return null;
-	}
-
-	public IStack <VOMovingViolations> nLastAccidents(int n) {
-		return null;
-	}*/
 	/**
-	 * Convertir fecha a un objeto LocalDate
-	 * @param fecha fecha en formato dd/mm/aaaa con dd para dia, mm para mes y aaaa para agno
-	 * @return objeto LD con fecha
+	 * Método que utiliza el árbol balanceado donde está contenida la información para buscar un elemento específico
+	 * @param pObjectId El object id de la infracción que corresponde a la llave de búsqueda del árbol. 
+	 * @return La información de la infracción. 
 	 */
-	private static LocalDate convertirFecha(String fecha)
-	{
-		return LocalDate.parse(fecha, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-	}
-
-
-	/**
-	 * Convertir fecha y hora a un objeto LocalDateTime
-	 * @param fecha fecha en formato dd/mm/aaaaTHH:mm:ss con dd para dia, mm para mes y aaaa para agno, HH para hora, mm para minutos y ss para segundos
-	 * @return objeto LDT con fecha y hora integrados
-	 */
-	private static LocalDateTime convertirFecha_Hora_LDT(String fechaHora)
-	{
-		return LocalDateTime.parse(fechaHora, DateTimeFormatter.ofPattern("dd/MM/yyyy'T'HH:mm:ss"));
+	public VOMovingViolations buscarInfraccion(int pObjectId) {
+		
+		return arbolbalanceado.get(pObjectId);
 	}
 }

@@ -15,7 +15,7 @@ public class VOMovingViolations implements Iterable<VOMovingViolations>, Compara
 	private int objectId , streetSegId , addressId  ;
 	private String location, violationDes, violationCode;
 	private String ticketIssue;
-	private double fineamt, totalPaid/*, penalty1, penalty2*/,x,y;
+	private double fineamt, totalPaid;
 	private boolean accidentIndicator;
 	
 	public VOMovingViolations( int pObjectId, String pLocation, int pAddressId, int pStreetId, double pFine, double pTotal, double pPenalty1, boolean pAccidentIndicator, String pTicketIssue, String pViolationCode, String pViolationDesc)
@@ -28,8 +28,6 @@ public class VOMovingViolations implements Iterable<VOMovingViolations>, Compara
 		
 		fineamt = pFine;
 		totalPaid = pTotal;
-		//penalty1 = pPenalty1;
-		//penalty2 = pPenalty2;
 		
 		accidentIndicator = pAccidentIndicator;
 		ticketIssue = pTicketIssue;
@@ -38,23 +36,7 @@ public class VOMovingViolations implements Iterable<VOMovingViolations>, Compara
 		violationDes = pViolationDesc;
 		
 	}
-	/**
-	{
-	DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-	DateTime dt = dtf.parseDateTime(pTicketIssue);
-	ticketIssue = dt.toDate();
-	}
-	catch (Exception e)
-	{
-	if (pTicketIssue.indexOf("T")!=-1 && pTicketIssue.indexOf("T") != 0)
-	{
-	String dateWorkaround = pTicketIssue.substring(0, pTicketIssue.indexOf("T"));
-	DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
-	DateTime dt = dtf.parseDateTime(dateWorkaround);
-	ticketIssue = dt.toDate();
-	}
-	}
-	 */
+	
 	/**
 	 * @return id - Identificador Ãºnico de la infracciÃ³n
 	 */
@@ -115,16 +97,7 @@ public class VOMovingViolations implements Iterable<VOMovingViolations>, Compara
 	{
 		return addressId;
 	}
-	
-	public double getX()
-	{
-		return x;
-	}
-	
-	public double getY()
-	{
-		return y;
-	}
+
 
 	/*
 	public double getPenalty1()
