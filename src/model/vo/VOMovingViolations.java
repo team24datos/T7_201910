@@ -18,7 +18,7 @@ public class VOMovingViolations implements Iterable<VOMovingViolations>, Compara
 	private double fineamt, totalPaid/*, penalty1, penalty2*/,x,y;
 	private boolean accidentIndicator;
 	
-	public VOMovingViolations( int pObjectId, String pLocation, int pAddressId, int pStreetId, double pFine, double pTotal, /*double pPenalty1,String pPenalty2,*/boolean pAccidentIndicator, String pTicketIssue, String pViolationCode, String pViolationDes, double x, double y)
+	public VOMovingViolations( int pObjectId, String pLocation, int pAddressId, int pStreetId, double pFine, double pTotal, double pPenalty1, boolean pAccidentIndicator, String pTicketIssue, String pViolationCode, String pViolationDesc)
 	{
 		objectId = pObjectId;
 		location = pLocation;
@@ -35,10 +35,7 @@ public class VOMovingViolations implements Iterable<VOMovingViolations>, Compara
 		ticketIssue = pTicketIssue;
 		
 		violationCode = pViolationCode;		
-		violationDes = pViolationDes;
-		
-		this.x=x;
-		this.y=y;
+		violationDes = pViolationDesc;
 		
 	}
 	/**
@@ -96,7 +93,7 @@ public class VOMovingViolations implements Iterable<VOMovingViolations>, Compara
 		return accidentIndicator;
 	}
 	/**
-	 * @return description - Descripción textual de la infracción.
+	 * @return description - Descripciï¿½n textual de la infracciï¿½n.
 	 */
 	public String  getViolationDescription() 
 	{

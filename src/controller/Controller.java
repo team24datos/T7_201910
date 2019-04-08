@@ -59,7 +59,7 @@ public class Controller {
 
 	public static Double Xmin, Ymin, Xmax, Ymax;
 
-	public RedBlackBST<String, VOMovingViolations> arbolbalanceado;
+	public RedBlackBST<Integer, VOMovingViolations> arbolbalanceado;
 
 	public Controller() {
 		view = new MovingViolationsManagerView();
@@ -69,6 +69,8 @@ public class Controller {
 
 		Xmax=0.0;
 		Ymax=0.0;
+		
+		arbolbalanceado = new RedBlackBST<Integer,VOMovingViolations>();
 	}
 
 	public void run() {
@@ -324,10 +326,13 @@ public class Controller {
 					//System.out.print("k");
 				}
 				//System.out.println("Linea : "+i);
-				//VOMovingViolations newVO = new VOMovingViolations(OBJECTID, LOCATION, ADDRESS_ID, STREETSEGID, FINEAMT, TOTALPAID, PENALTY1, ACCIDENTINDICATOR, TICKETISSUEDATE, VIOLATIONCODE, VIOLATIONDESC);
+				VOMovingViolations newVO = new VOMovingViolations(OBJECTID, LOCATION, ADDRESS_ID, STREETSEGID, FINEAMT, TOTALPAID, PENALTY1, ACCIDENTINDICATOR, TICKETISSUEDATE, VIOLATIONCODE, VIOLATIONDESC);
 				//System.out.println("cre� el objeto");
 				//moving.add(newVO);
+				arbolbalanceado.put(OBJECTID, newVO);
+				
 				numCargados++;
+				
 				//System.out.println("Agrego en moving");
 				
 				/*movLP.put(""+ADDRESS_ID, newVO);
