@@ -2,8 +2,9 @@ a. Total de nodos (infracciones) en el árbol: 599207
 b. Altura (real) del árbol: 
 c. Altura promedio para buscar una infracción existente en el árbol:
  Ayuda: Calcular el promedio de las alturas de los ObjectIds en el árbol construido
-d. Altura teórica del árbol Red-Black más alto que se podría construir con el mismo número de infracciones: Esto equivale a la raíz 
-e. Altura teórica del árbol Red-Black más bajo que se podría construir con el mismo número de infracciones: Esto equivale a la raíz
+d. Altura teórica del árbol Red-Black más alto que se podría construir con el mismo número de infracciones: Esto equivale a la raíz a 2*log(N), es decir, 1548
+e. Altura teórica del árbol Red-Black más bajo que se podría construir con el mismo número de infracciones: Esto equivale a la raíz cúbica del total de nodos, es decir: 488
 f. Altura teórica del árbol 2-3 más alto que se podría construir con el mismo número de infracciones: Esto equivale a la raíz cuadrada del total de nodos, es decir: 774
 g. Altura teórica del árbol 2-3 más bajo que se podría construir con el mismo número de infracciones: Esto equivale a la raíz cúbica del total de nodos, es decir: 488
-h. Comentario de análisis de la altura de su árbol (real) Red-Black (2.b) con respecto a las alturas de los árboles 2.d, 2.e, 2.f. y 2.g. Es menor? Es mayor? Es igual?
+h. Comentario de análisis de la altura de su árbol (real) Red-Black (2.b) con respecto a las alturas de los árboles 2.d, 2.e, 2.f. y 2.g. Es menor? Es mayor? Es igual? 
+La altura real esta entre el mejor y el peor caso.
