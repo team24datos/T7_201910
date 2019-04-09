@@ -33,6 +33,7 @@ public class LinearProbingTest extends TestCase
 	
 	public void setUpEscenario2()
 	{
+		/*
 		m=3;
 		n=8;
 		movLPtest = new LinearProbing<Integer,VOMovingViolations>(5);
@@ -41,20 +42,20 @@ public class LinearProbingTest extends TestCase
 		{
 			movingElementos[i]= new VOMovingViolations(i, "location"+i, i, i, 0.0, 0.0, false, "ticketIssue"+i, "violationCode"+i, "violationDes"+i,0.0, 0.0);
 			movLPtest.put(movingElementos[i].getAddressId(), movingElementos[i]);
-		}
+		}*/
 	}
 	@Test
 	public void testPut()
 	{
 		setUpEscenario1();
-		movingElementos[0]= new VOMovingViolations(1, "location1", 1, 1, 0.0, 0.0, false, "ticketIssue"+1, "violationCode"+1, "violationDes"+1,0.0,0.0);
+		//movingElementos[0]= new VOMovingViolations(1, "location1", 1, 1, 0.0, 0.0, false, "ticketIssue"+1, "violationCode"+1, "violationDes"+1,0.0,0.0);
 		movLPtest.put(movingElementos[0].getAddressId(), movingElementos[0]);
 		assertEquals("ae1",0, movLPtest.getN());
 		movLPtest.put(movingElementos[0].getAddressId(), movingElementos[0]);
 		assertEquals("ae2",0, movLPtest.getN());
 		//assertEquals("ae3",2, movLPtest.getM());
 		//De paso se prueba el rehash
-		movingElementos[1]= new VOMovingViolations(2, "location"+2, 2, 2, 0.0, 0.0, false, "ticketIssue"+2, "violationCode"+2, "violationDes"+2, 0.0 ,0.0);
+		//movingElementos[1]= new VOMovingViolations(2, "location"+2, 2, 2, 0.0, 0.0, false, "ticketIssue"+2, "violationCode"+2, "violationDes"+2, 0.0 ,0.0);
 		movLPtest.put(movingElementos[1].getAddressId(), movingElementos[1]);
 	}
 	@Test

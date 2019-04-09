@@ -93,6 +93,8 @@ public class Controller {
 
 				System.out.println("");
 				System.out.println("El total de infracciones del semestre fue: "+numCargados);
+				int height =arbolbalanceado.height();
+				System.out.println("La altura del arbol fue: "+ height);
 				//System.out.println("La zona geogr�fica Minimax es: ("+Xmin+","+Ymin+") y ("+Xmax+","+Ymax+")");
 				break;
 
