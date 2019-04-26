@@ -33,44 +33,11 @@ public class Controller {
 
 	private MovingViolationsManagerView view;
 
-	public final static String mesEnero = "./data/Moving_Violations_Issued_in_January_2018.json";
+	
 
-	public final static String mesFebrero = "./data/Moving_Violations_Issued_in_February_2018.json";
-
-	public final static String mesMarzo = "./data/Moving_Violations_Issued_in_March_2018.json";
-
-	public final static String mesAbril = "./data/Moving_Violations_Issued_in_April_2018.json";
-
-	public final static String mesMayo = "./data/Moving_Violations_Issued_in_May_2018.json";
-
-	public final static String mesJunio = "./data/Moving_Violations_Issued_in_June_2018.json";
-
-	public final static String mesJulio = "./data/Moving_Violations_Issued_in_July_2018.json";
-
-	public final static String mesAgosto = "./data/Moving_Violations_Issued_in_August_2018.json";
-
-	public final static String mesSeptiembre = "./data/Moving_Violations_Issued_in_September_2018.json";
-
-	public final static String mesOctubre = "./data/Moving_Violations_Issued_in_October_2018.json";
-
-	public final static String mesNomviembre = "./data/Moving_Violations_Issued_in_November_2018.json";
-
-	public final static String mesdiciembre= "./data/Moving_Violations_Issued_in_December_2018.json";
-
-	public static Double Xmin, Ymin, Xmax, Ymax;
-
-	public RedBlackBST<Integer, VOMovingViolations> arbolbalanceado;
-
-	public Controller() {
+	public Controller() 
+	{
 		view = new MovingViolationsManagerView();
-
-		Xmin=393185.8;
-		Ymin=138316.9;
-
-		Xmax=0.0;
-		Ymax=0.0;
-		
-		arbolbalanceado = new RedBlackBST<Integer,VOMovingViolations>();
 	}
 
 	public void run() {
@@ -87,22 +54,13 @@ public class Controller {
 			switch(option)
 			{
 			case 0:
-				System.out.println("Ingrese el semestre (1 o 2)");
-				int numeroCuatrimestre = sc.nextInt();
-				int numCargados=controller.loadMovingViolations(numeroCuatrimestre);
 
-				System.out.println("");
-				System.out.println("El total de infracciones del semestre fue: "+numCargados);
-				int height =arbolbalanceado.height();
-				System.out.println("La altura del arbol fue: "+ height);
-				//System.out.println("La zona geogr�fica Minimax es: ("+Xmin+","+Ymin+") y ("+Xmax+","+Ymax+")");
+				controller.loadMovingViolations();
+
 				break;
 
 			case 1:
-				System.out.println("Ingrese el OBJECT_ID de la infracción de la cual quiere obtener la información");
-				int objectid = sc.nextInt();
-				VOMovingViolations infraccion = controller.buscarInfraccion(objectid);
-				System.out.println(infraccion.toString());
+				;
 				
 				break;
 
@@ -123,33 +81,12 @@ public class Controller {
 	}
 
 
-	public int loadMovingViolations(int numeroSemestre) 
+	public void loadMovingViolations() 
 	{
-		int numCargados=0;
-		if(numeroSemestre==1)
-		{
-			numCargados+= loadMovingViolationsXMes(mesEnero, false);
-			numCargados+= loadMovingViolationsXMes(mesFebrero, false);
-			numCargados+= loadMovingViolationsXMes(mesMarzo, false);
-			numCargados+= loadMovingViolationsXMes(mesAbril, false);
-			numCargados+= loadMovingViolationsXMes(mesMayo, false);
-			numCargados+= loadMovingViolationsXMes(mesJunio, false);
-		}
-
-		else if(numeroSemestre==2)
-		{
-			numCargados+= loadMovingViolationsXMes(mesJulio, false);
-			numCargados+= loadMovingViolationsXMes(mesAgosto, false);
-			numCargados+= loadMovingViolationsXMes(mesSeptiembre, false);
-			numCargados+= loadMovingViolationsXMes(mesOctubre, true);
-			numCargados+= loadMovingViolationsXMes(mesNomviembre, true);
-			numCargados+= loadMovingViolationsXMes(mesdiciembre, true);					
-
-		}
-		return numCargados;
+		
 	}
 
-	public int loadMovingViolationsXMes(String movingViolationsFile, boolean otroAtributo) {
+	public void loadMovingViolationsXMes(String movingViolationsFile, boolean otroAtributo) {
 		int numCargados=0;
 		JsonParser parser = new JsonParser();
 		try 
@@ -259,7 +196,7 @@ public class Controller {
 				VOMovingViolations newVO = new VOMovingViolations(OBJECTID, LOCATION, ADDRESS_ID, STREETSEGID, FINEAMT, TOTALPAID, PENALTY1, ACCIDENTINDICATOR, TICKETISSUEDATE, VIOLATIONCODE, VIOLATIONDESC);
 				//System.out.println("cre� el objeto");
 				//moving.add(newVO);
-				arbolbalanceado.put(OBJECTID, newVO);
+				
 				
 				numCargados++;
 				
@@ -273,28 +210,15 @@ public class Controller {
 				
 			}
 			
-			System.out.println("El tamaño del árbol después de cargar los datos es : " + arbolbalanceado.size());
-			System.out.println("El elemento máximo es: " + arbolbalanceado.max() + ". y el elemento mínimo es: " + arbolbalanceado.min());
-
+			
 		}
 		catch (Exception e)
 		{
 			System.out.println(e.getStackTrace().toString());
 			System.out.println(e.getMessage());
 		}
-		System.out.println("El n�mero de datos cargados en este mes fue: "+numCargados);
-		System.out.println("");
-		return numCargados;
 
 	}
 	
-	/**
-	 * Método que utiliza el árbol balanceado donde está contenida la información para buscar un elemento específico
-	 * @param pObjectId El object id de la infracción que corresponde a la llave de búsqueda del árbol. 
-	 * @return La información de la infracción. 
-	 */
-	public VOMovingViolations buscarInfraccion(int pObjectId) {
-		
-		return arbolbalanceado.get(pObjectId);
-	}
+	
 }
