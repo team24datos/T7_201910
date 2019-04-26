@@ -2,7 +2,7 @@ package model.data_structures;
 
 import java.util.Iterator;
 
-public class SeparatedChaining<Key extends Comparable<Key>, Value> implements TablaHash<Key, Value>
+public class SeparatedChaining<Key extends Comparable<Key>, Value> implements ITablaHash<Key, Value>
 {
 	private int N;
 	private int M;
