@@ -1,6 +1,6 @@
 package model.vo;
 
-public class VOIntersections 
+public class VOIntersections implements Comparable<VOIntersections>
 {
 	private int id;
 	private double lat;
@@ -25,6 +25,12 @@ public class VOIntersections
 	public double getLon() 
 	{
 		return lon;
+	}
+
+	@Override
+	public int compareTo(VOIntersections o) {
+		
+		return id - o.getId();
 	}
 
 }
