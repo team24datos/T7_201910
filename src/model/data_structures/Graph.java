@@ -4,16 +4,16 @@ import java.util.Iterator;
 
 public class Graph<K extends Comparable<K>, V, A extends Comparable<A>>
 {
-	private final int numVertices;
+	private int numVertices;
 	private int numArcos;
-	private TablaHash<K, Vertex> vertices;
-	private LinkedList<Arc> arcos;
+	private TablaHash<K, Vertice> vertices;
+	private LinkedList<Arco> arcos;
 	
 	public Graph() 
 	{
 		numVertices=0;
 		numArcos=0;
-		vertices= new TablaHash<K, Vertex>(); 
+		vertices= new TablaHash<K, Vertice>(); 
 		
 	}
 	
@@ -29,7 +29,9 @@ public class Graph<K extends Comparable<K>, V, A extends Comparable<A>>
 	
 	public void addVertex(K idVertex, V infoVertex)
 	{
-		
+		Vertice nuevoVertice = new Vertice(idVertex, infoVertex);
+		vertices.put(idVertex, nuevoVertice);
+		numVertices++;
 	}
 
 	public void addEdge(K idVertexIni, K idVertexFin, A infoArc)
@@ -63,20 +65,28 @@ public class Graph<K extends Comparable<K>, V, A extends Comparable<A>>
 	}
 	
 
-	private class Vertex<K,V>
+	private class Vertice<K,V>
 	{
 		K id;
 		V info;
 		LinkedList adyacentes;
+		boolean marcado;
+		public Vertice(K pKey, V pInfo)
+		{
+			id = pKey;
+			info = pInfo;
+			adyacentes = new LinkedList<Arco>();
+			marcado = false;
+		}
 		
 	}
 	
-	private class Arc implements Comparable<Arc>
+	private class Arco implements Comparable<Arco>
 	{
 		A info;
 
 		@Override
-		public int compareTo(Graph<K, V, A>.Arc arg0) 
+		public int compareTo(Graph<K, V, A>.Arco arg0) 
 		{
 			// TODO Auto-generated method stub
 			return 0;

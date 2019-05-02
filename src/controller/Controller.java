@@ -1,19 +1,21 @@
 package controller;
 
 import java.io.FileReader;
-
+import java.io.FileWriter;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
 import java.util.Scanner;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonWriter;
 
 import model.data_structures.ArregloDinamico;
 import model.data_structures.BST;
@@ -25,6 +27,7 @@ import model.data_structures.TablaHash;
 import model.vo.LocationVO;
 import model.vo.VODaylyStatistic;
 import model.vo.VOGeographicLocation;
+import model.vo.VOIntersections;
 import model.vo.VOMovingViolations;
 import model.vo.VOViolationCode;
 import view.MovingViolationsManagerView;
@@ -220,5 +223,47 @@ public class Controller {
 
 	}
 	
+	
+	private void toJson()
+	{
+		JsonWriter writer;
+		try
+		{
+			writer = new JsonWriter(new FileWriter("./data/WashingtonGraph.json"));
+			writer.beginObject();
+			//
+			// VERTICES
+			//
+			writer.name("Vertices");
+			writer.beginArray();
+			Iterator<VOIntersections>  itVertices;
+			
+			while(itVertices.hasNext())
+			{
+				VOIntersections actual= itVertices.next();
+				writer.beginObject();
+				writer.name("ID").value(actual.getId());
+				writer.name("LAT").value(actual.getLat());
+				writer.name("LON").value(actual.getLon());
+				//DUDA!! adyacentes??
+				writer.endObject();				
+			}
+			writer.endArray();
+			writer.endObject();
+			//
+			// ARCOS
+			//
+			writer.name("Arcos");
+			writer.beginArray();
+			//Corregir de acuerdo a Santiago
+			Iterator<VOMovingViolations> itArcos;
+			//TODO
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			System.out.println("Fallo porque: "+e.getMessage());
+		}
+	}
 	
 }
