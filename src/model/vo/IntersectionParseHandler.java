@@ -22,12 +22,19 @@ public class IntersectionParseHandler extends DefaultHandler {
 	/**
 	 * Pila donde se almacenan los objetos que han sido leidos. 
 	 */
-	private Stack<VOMovingViolations> objectStack;
+	private Stack<VOIntersections> objectStack;
 	
 
+	/**
+	 * Constructor del handler
+	 */
 	public IntersectionParseHandler() 
 	{
 		intersectionList = new ArregloDinamico<VOIntersections>(200);
+		elementStack = new Stack();
+		objectStack = new Stack<VOIntersections>();
 	}
+	
+	
 
 }
