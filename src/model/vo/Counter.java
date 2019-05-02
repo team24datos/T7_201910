@@ -31,6 +31,8 @@ import org.xml.sax.helpers.ParserAdapter;
 import org.xml.sax.helpers.ParserFactory;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import model.data_structures.ArregloDinamico;
+import model.data_structures.Grafo;
 import model.data_structures.Graph;
 
 /**
@@ -166,7 +168,7 @@ public class Counter
     protected long fOtherCharacters;
     
     /** Grafo donde se mete la información del documento xml" */
-   // private Graph<Integer, VOIntersections, Arco> grafo;
+    private Grafo<Integer, VOIntersections, VOWay> grafo;
 
     //
     // Constructors
@@ -254,7 +256,7 @@ public class Counter
         System.out.print("<" + raw);   // mostrar el <elemento
         
         if (attrs != null) {
-            
+        	
         	int attrCount = attrs.getLength();
             fAttributes += attrCount;
 
@@ -269,6 +271,31 @@ public class Counter
 
                 System.out.print(" " + attrs.getQName(i) + "=" + attrs.getValue(i)); // mostrar nombre_atributo=valor_atributo
             }
+        }
+        
+        if(raw.equalsIgnoreCase("node")) {
+        	
+        	int idNodo = 0;
+        	double lat = 0.0;
+        	double lon = 0.0;
+        	
+        	idNodo = Integer.parseInt(attrs.getValue(0));
+        	lat = Double.parseDouble(attrs.getValue(1));
+        	lon = Double.parseDouble(attrs.getValue(2));
+        	
+        	VOIntersections nuevoNodo = new VOIntersections(idNodo, lat, lon);
+        	grafo.addVertex(idNodo, nuevoNodo);
+        }
+        else if(raw.equalsIgnoreCase("way")) {
+        	
+        	int attrsCount = attrs.getLength();
+        	ArregloDinamico<Integer> arreglo = new ArregloDinamico<Integer>(5);
+        	int idArco = 0;
+        	
+        	for(int i = 0; i < attrsCount; i++) {
+        		
+        		if()
+        	}
         }
 
         System.out.println(">");   // terminar elemento>

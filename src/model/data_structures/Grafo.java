@@ -29,7 +29,7 @@ public class Grafo <K extends Comparable<K>, V, A extends Comparable<A>> impleme
 		cantEnlaces = 0;
 	}
 	// -----------------------------------------------------------------
-	// Métodos
+	// Mï¿½todos
 	// -----------------------------------------------------------------
 	
 	public int V() 
