@@ -6,7 +6,9 @@ public class VOWay implements Comparable<VOWay>{
 	
 	private int id;
 	
-	//private VOIntersections 
+	private int idNodo2;
+	
+	private int idNodo1;
 	
 	@Override
 	public int compareTo(VOWay arg0) {

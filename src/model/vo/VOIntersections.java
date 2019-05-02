@@ -23,9 +23,9 @@ public class VOIntersections implements Comparable<VOIntersections> {
 	
 	public VOIntersections(int pId,double pLat, double pLon) 
 	{
-		id=pId;
-		lat=pLat;
-		lon=pLon;
+		id = pId;
+		lat = pLat;
+		lon = pLon;
 	}
 	
 	// Métodos ------------------------------------------------------------------------------------

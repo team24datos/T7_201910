@@ -176,6 +176,9 @@ public class Counter
 
     /** Default constructor. */
     public Counter() {
+    	
+    	grafo = new Grafo<Integer, VOIntersections, VOWay>();
+    	
     } // <init>()
 
     //
@@ -291,10 +294,16 @@ public class Counter
         	int attrsCount = attrs.getLength();
         	ArregloDinamico<Integer> arreglo = new ArregloDinamico<Integer>(5);
         	int idArco = 0;
+        	boolean esValido;
         	
         	for(int i = 0; i < attrsCount; i++) {
         		
-        		if()
+        		if(attrs.getQName(i).equalsIgnoreCase("nd")) {
+        			arreglo.agregar(Integer.parseInt(attrs.getValue(i)));
+        		}
+        		if(attrs.getQName(i).equalsIgnoreCase("tag")) {
+        			
+        		}
         	}
         }
 
