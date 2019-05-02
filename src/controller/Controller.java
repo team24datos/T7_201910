@@ -61,20 +61,21 @@ public class Controller {
 			switch(option)
 			{
 			case 0:
+				System.out.println("Carga del grafo desde xlm");
+				break;
+
+			case 1:
+				System.out.println("Guarda el grafo en un Json");
+				controller.toJson();
+				
+				break;
+
+			case 2:
 				System.out.println("Carga del grafo desde un Json");
 				String rutaInt= "./data//WashingtonVertices.json";
 				String rutaWay= "./data/";
 				controller.loadIntersectionsJson(rutaInt);
 				controller.loadWaysJson(rutaWay);
-				break;
-
-			case 1:
-				;
-				
-				break;
-
-			case 2:
-				
 				break;
 			 
 			case 3:	
