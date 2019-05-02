@@ -378,6 +378,40 @@ public class LinkedList<T extends Comparable<T>> {
 		return null;
 	}
 
+	
+	/**
+     * Obtiene el elemento buscado
+     * @param pPosicion 
+     * @return el elemento en la posicion T 
+     */
+	public T getObject(T buscado) {
+		
+		if (buscado == null)
+		{
+			return null;
+		}
+		
+		NodeList<T> pro = first;
+		boolean encontro =false;
+		if (pro != null) 
+		{
+			for (int i=0;i< size && !encontro;i++)
+			{
+				if (!pro.hasNext())
+				{
+					return null;
+				}
+				if(pro.equals(buscado))
+				{
+					encontro=true;
+					return pro.getelem();
+				}
+				pro = pro.getNext();
+			}
+			return pro.getelem();
+		}
+		return null;
+	}
 	/**
      * elimina un elemento en la poscion T
      * @param T elemento , il posicion
