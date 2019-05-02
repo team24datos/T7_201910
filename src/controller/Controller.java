@@ -19,6 +19,7 @@ import com.google.gson.stream.JsonWriter;
 
 import model.data_structures.ArregloDinamico;
 import model.data_structures.BST;
+import model.data_structures.Grafo;
 import model.data_structures.IQueue;
 import model.data_structures.IStack;
 import model.data_structures.MaxColaPrioridad;
@@ -35,12 +36,13 @@ import view.MovingViolationsManagerView;
 public class Controller {
 
 	private MovingViolationsManagerView view;
-
+	private Grafo grafo;
 	
 
 	public Controller() 
 	{
 		view = new MovingViolationsManagerView();
+		grafo= new Grafo<Integer,VOIntersections,>();
 	}
 
 	public void run() {
@@ -57,9 +59,11 @@ public class Controller {
 			switch(option)
 			{
 			case 0:
-
-				controller.loadMovingViolations();
-
+				System.out.println("Carga del grafo desde un Json");
+				String rutaInt= "./data//WashingtonVertices.json";
+				String rutaWay= "./data/";
+				controller.loadIntersectionsJson(rutaInt);
+				controller.loadWaysJson(rutaWay);
 				break;
 
 			case 1:
@@ -68,10 +72,7 @@ public class Controller {
 				break;
 
 			case 2:
-				System.out.println("Ingrese el OBJECT_ID mínimo");
-				int min= sc.nextInt();
-				System.out.println("Ingrese el OBJECT_ID máximo");
-				int max=sc.nextInt();
+				
 				break;
 			 
 			case 3:	
@@ -84,9 +85,49 @@ public class Controller {
 	}
 
 
-	public void loadMovingViolations() 
+	public void loadIntersectionsJson(String ruta) 
 	{
-		
+		int numCargados=0;
+		JsonParser parser = new JsonParser();
+		try 
+		{
+			Reader reader = Files.newBufferedReader(Paths.get(ruta));
+			JsonArray arreglo = (JsonArray)parser.parse(new FileReader(ruta));
+			for(int i=0; arreglo != null && i < arreglo.size(); i++)
+			{
+				JsonObject objeto = (JsonObject)arreglo.get(i);
+				//------------------------------------
+				//------ Lectura de atributos de la interseccion
+				//------------------------------------
+			}
+		}
+		catch (Exception e)
+		{
+			System.out.println(e.getStackTrace().toString());
+			System.out.println(e.getMessage());
+		}
+	}
+	public void loadWaysJson(String ruta) 
+	{
+		int numCargados=0;
+		JsonParser parser = new JsonParser();
+		try 
+		{
+			Reader reader = Files.newBufferedReader(Paths.get(ruta));
+			JsonArray arreglo = (JsonArray)parser.parse(new FileReader(ruta));
+			for(int i=0; arreglo != null && i < arreglo.size(); i++)
+			{
+				JsonObject objeto = (JsonObject)arreglo.get(i);
+				//------------------------------------
+				//------ Lectura de atributos del Way
+				//------------------------------------
+			}
+		}
+		catch (Exception e)
+		{
+			System.out.println(e.getStackTrace().toString());
+			System.out.println(e.getMessage());
+		}
 	}
 
 	public void loadMovingViolationsXMes(String movingViolationsFile, boolean otroAtributo) {
@@ -229,7 +270,7 @@ public class Controller {
 		JsonWriter writer;
 		try
 		{
-			writer = new JsonWriter(new FileWriter("./data/WashingtonGraph.json"));
+			writer = new JsonWriter(new FileWriter("./data/WashingtonVertices.json"));
 			writer.beginObject();
 			//
 			// VERTICES
