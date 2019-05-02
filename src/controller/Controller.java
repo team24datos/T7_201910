@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.FileReader;
+
 import java.io.FileWriter;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -31,6 +32,7 @@ import model.vo.VOGeographicLocation;
 import model.vo.VOIntersections;
 import model.vo.VOMovingViolations;
 import model.vo.VOViolationCode;
+import model.vo.VOWay;
 import view.MovingViolationsManagerView;
 
 public class Controller {
@@ -42,7 +44,7 @@ public class Controller {
 	public Controller() 
 	{
 		view = new MovingViolationsManagerView();
-		grafo= new Grafo<Integer,VOIntersections,>();
+		grafo= new Grafo<Integer,VOIntersections,VOWay>();
 	}
 
 	public void run() {
@@ -99,6 +101,29 @@ public class Controller {
 				//------------------------------------
 				//------ Lectura de atributos de la interseccion
 				//------------------------------------
+				int ID=0;
+				JsonElement elementoID = objeto.get("ID");
+				if(elementoID!=null && !elementoID.isJsonNull())
+				{
+					ID=elementoID.getAsInt();
+					//System.out.print("a");
+				}
+				double LAT=0;
+				JsonElement elementoLAT = objeto.get("LAT");
+				if(elementoLAT!=null && !elementoLAT.isJsonNull())
+				{
+					LAT=elementoLAT.getAsDouble();
+					//System.out.print("b");
+				}
+				double LON=0;
+				JsonElement elementoLON = objeto.get("LON");
+				if(elementoLON!=null && !elementoLON.isJsonNull())
+				{
+					LON=elementoLON.getAsDouble();
+					//System.out.print("c");
+				}
+				VOIntersections nuevaInter= new VOIntersections(ID, LAT, LON);
+				numCargados++;
 			}
 		}
 		catch (Exception e)
@@ -277,7 +302,7 @@ public class Controller {
 			//
 			writer.name("Vertices");
 			writer.beginArray();
-			Iterator<VOIntersections>  itVertices;
+			Iterator<VOIntersections>  itVertices=grafo.iteratorVertices();
 			
 			while(itVertices.hasNext())
 			{
