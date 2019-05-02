@@ -31,6 +31,8 @@ import org.xml.sax.helpers.ParserAdapter;
 import org.xml.sax.helpers.ParserFactory;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import model.data_structures.Graph;
+
 /**
  * A sample SAX2 counter. This sample program illustrates how to
  * register a SAX2 ContentHandler and receive the callbacks in
@@ -162,6 +164,9 @@ public class Counter
 
     /** Number of other content characters for the "tagginess" calculation. */
     protected long fOtherCharacters;
+    
+    /** Grafo donde se mete la información del documento xml" */
+   // private Graph<Integer, VOIntersections, Arco> grafo;
 
     //
     // Constructors

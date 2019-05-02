@@ -58,6 +58,8 @@ public class Controller {
 
 		while(!fin)
 		{
+			
+			
 			view.printMenu();
 
 			int option = sc.nextInt();
