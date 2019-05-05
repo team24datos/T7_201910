@@ -18,6 +18,7 @@
 package model.vo;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.Parser;
@@ -168,7 +169,22 @@ public class Counter
     protected long fOtherCharacters;
     
     /** Grafo donde se mete la información del documento xml" */
-    private Grafo<Integer, VOIntersections, VOWay> grafo;
+    private Grafo<Long, VOIntersections, VOWay> grafo;
+    
+    /**
+     * Arreglo dinámico donde se ponen todos los nodos que leen después de way. 
+     */
+    private ArrayList<Long> arregloNodos;
+    
+    /**
+     * Si se está leyendo un way, el identificador actual 
+     */
+    private long idWay; 
+    
+    /**
+     * Booleano que es true cuando el way que se está leyendo es de tipo "highway"
+     */
+    private boolean ok;
 
     //
     // Constructors
@@ -177,7 +193,10 @@ public class Counter
     /** Default constructor. */
     public Counter() {
     	
-    	grafo = new Grafo<Integer, VOIntersections, VOWay>();
+    	grafo = new Grafo<Long, VOIntersections, VOWay>();
+    	arregloNodos = new ArrayList<Long>();
+    	idWay = 0; 
+    	ok = false;
     	
     } // <init>()
 
@@ -250,7 +269,6 @@ public class Counter
      * Procesar un elemento XML con estructura
      * <elemento atr1=val1 atr2=val2 ... atrN=valN/>
      */
-
     public void startElement(String uri, String local, String raw, Attributes attrs) throws SAXException {
 
         fElements++;
@@ -276,41 +294,48 @@ public class Counter
             }
         }
         
+        // Si el raw es un nodo entonces entra a este condicional
         if(raw.equalsIgnoreCase("node")) {
-        	
-        	int idNodo = 0;
+        	// Inicializa los valores que van a tomar el identificador y la longitud y latitud. 
+        	long idNodo = 0;
         	double lat = 0.0;
         	double lon = 0.0;
-        	
-        	idNodo = Integer.parseInt(attrs.getValue(0).trim());
-        	lat = Double.parseDouble(attrs.getValue(1).trim());
+        	// Lee los atributos del objeto y los convierte en los valores para crear un objeto de tipo VOIntersection.  
+        	idNodo = Long.parseLong(attrs.getValue(0).trim());
+        	lat = Double.parseDouble(attrs.getValue(1).trim()); 
         	lon = Double.parseDouble(attrs.getValue(2).trim());
-        	
+        	// Crea el nuevo nodo y lo agrega directamente al grafo. 
         	VOIntersections nuevoNodo = new VOIntersections(idNodo, lat, lon);
         	grafo.addVertex(idNodo, nuevoNodo);
-        	
         }
+        // Si el raw es un way entra a este condicional
         else if(raw.equalsIgnoreCase("way")) {
-        	
-        	int attrsCount = attrs.getLength();
-        	ArregloDinamico<Integer> arreglo = new ArregloDinamico<Integer>(5);
-        	int idArco = 0;
-        	boolean esValido;
-        	
-        	for(int i = 0; i < attrsCount; i++) {
-        		
-        		if(attrs.getQName(i).equalsIgnoreCase("nd")) {
-        			arreglo.agregar(Integer.parseInt(attrs.getValue(i)));
-        		}
-        		if(attrs.getQName(i).equalsIgnoreCase("tag")) {
-        			
-        		}
+        	if(idWay == 0) {
+        		break;
+        	}
+        	// Imprimir elementos del way anterior
+        	System.out.println("Se leyó un way:");
+        	if(ok == true){
+        		System.out.print(" válido:");
+        		System.out.println("Id: " + idWay + " primeros nodos: " + arregloNodos.get(0) + ", " + arregloNodos.get(1));
+        	}
+        	else {
+        		System.out.println(" inválido");
+        	}
+        	// Se lee el identificador del way y se crea un arreglo con los nodos que conecta este camino. 
+        	idWay = Long.parseLong(attrs.getValue(0));
+        	ok = false; 
+        	arregloNodos.clear();
+        }
+        // Si lee un nodo simplemente lo agrega al arreglo dinámico de referencias de nodos. 
+        else if(raw.equalsIgnoreCase("nd")) {
+        	arregloNodos.add(Long.parseLong(attrs.getValue(0)));
+        }
+        else if(raw.equalsIgnoreCase("tag")) {
+        	if(attrs.getValue(0).equalsIgnoreCase("highway")) {
+        		ok = true;
         	}
         }
-
-        //System.out.println(">");   // terminar elemento>
-
-        fTagCharacters++; // close angle bracket
 
     } // startElement(String,String,StringAttributes)
 

@@ -7,7 +7,7 @@ public class VOIntersections implements Comparable<VOIntersections> {
 	/**
 	 * Identificador del nodo de intersección
 	 */
-	private int id;
+	private long id;
 	
 	/**
 	 * Latitud del nodo 
@@ -21,7 +21,7 @@ public class VOIntersections implements Comparable<VOIntersections> {
 	
 	// Constructor ------------------------------------------------------------------------------------
 	
-	public VOIntersections(int pId,double pLat, double pLon) 
+	public VOIntersections(long pId,double pLat, double pLon) 
 	{
 		id = pId;
 		lat = pLat;
@@ -33,7 +33,7 @@ public class VOIntersections implements Comparable<VOIntersections> {
 	/**
 	 * @return Retorna el identificador del nodo
 	 */
-	public int getId()
+	public long getId()
 	{
 		return id;
 	}
@@ -57,7 +57,7 @@ public class VOIntersections implements Comparable<VOIntersections> {
 	@Override
 	public int compareTo(VOIntersections o) {
 		
-		return id - o.getId();
+		return (int) id - (int) o.getId();
 	}
 
 }
