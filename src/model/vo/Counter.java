@@ -171,20 +171,17 @@ public class Counter
     /** Grafo donde se mete la información del documento xml" */
     private Grafo<Long, VOIntersections, VOWay> grafo;
     
-    /**
-     * Arreglo dinámico donde se ponen todos los nodos que leen después de way. 
-     */
+    /** Arreglo dinámico donde se ponen todos los nodos que leen después de way. */
     private ArrayList<Long> arregloNodos;
     
-    /**
-     * Si se está leyendo un way, el identificador actual 
-     */
+    /** Si se está leyendo un way, el identificador actual */
     private long idWay; 
     
-    /**
-     * Booleano que es true cuando el way que se está leyendo es de tipo "highway"
-     */
+    /** Booleano que es true cuando el way que se está leyendo es de tipo "highway" */
     private boolean ok;
+    
+    /** Genera códigos para los arcos que se creen en el proceso de crear el grafo*/
+    private int generadorCodigosArcos;
 
     //
     // Constructors
@@ -245,6 +242,9 @@ public class Counter
             out.print(tagValue);
             out.print("% tagginess");
         }
+        
+        System.out.println("La cantidad de vertices = " + grafo.V() + ", La cantidad de arcos = " + grafo.E() + " debería ser igual a: " + generadorCodigosArcos );
+        
         out.println();
         out.flush();
 
@@ -310,22 +310,29 @@ public class Counter
         }
         // Si el raw es un way entra a este condicional
         else if(raw.equalsIgnoreCase("way")) {
-        	if(idWay == 0) {
-        		break;
-        	}
-        	// Imprimir elementos del way anterior
-        	System.out.println("Se leyó un way:");
-        	if(ok == true){
-        		System.out.print(" válido:");
-        		System.out.println("Id: " + idWay + " primeros nodos: " + arregloNodos.get(0) + ", " + arregloNodos.get(1));
-        	}
-        	else {
-        		System.out.println(" inválido");
+        	//Revisa que el primer elemento no sea inválido y lo agregue por error
+        	if(idWay != 0) {
+        		// Imprimir elementos del way anterior
+        		System.out.println("Se leyó un way:");
+        		if(ok == true){
+        			System.out.print(" válido:");
+        			System.out.println("Id: " + idWay + " primeros nodos: " + arregloNodos.get(0) + ", " + arregloNodos.get(1));
+        			//Cuando lee un way válido (De tipo "highway") entonces procede a agregar los arcos del grafo. 
+        			//Recorre el arreglo y va creando los arcos entre los dos nodos consecutivos. 
+        			for(int i = 0; i < arregloNodos.size()-1; i++) {
+        				grafo.addEdge(arregloNodos.get(i), arregloNodos.get(i+1),new VOWay(generadorCodigosArcos,arregloNodos.get(i),arregloNodos.get(i+1)));
+        				generadorCodigosArcos++;
+        			}
+        		}
+        		else {
+        			System.out.println(" inválido");
+        		}
         	}
         	// Se lee el identificador del way y se crea un arreglo con los nodos que conecta este camino. 
         	idWay = Long.parseLong(attrs.getValue(0));
         	ok = false; 
         	arregloNodos.clear();
+        	
         }
         // Si lee un nodo simplemente lo agrega al arreglo dinámico de referencias de nodos. 
         else if(raw.equalsIgnoreCase("nd")) {

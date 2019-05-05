@@ -8,10 +8,10 @@ public class VOWay implements Comparable<VOWay>{
 	private int id;
 	
 	/** El identificador del primer nodo que conecta el arco*/
-	private int idNodo1;
+	private long idNodo1;
 	
 	/** El identificador del segundo nodo que conecta el arco */
-	private int idNodo2;
+	private long idNodo2;
 	
 	// Constructor -------------------------------------------------------
 	
@@ -21,7 +21,7 @@ public class VOWay implements Comparable<VOWay>{
 	 * @param pIdNodo1
 	 * @param pIdNodo2
 	 */
-	public VOWay(int pId, int pIdNodo1, int pIdNodo2) {
+	public VOWay(int pId, long pIdNodo1, long pIdNodo2) {
 		id = pId;
 		idNodo1 = pIdNodo1;
 		idNodo2 = pIdNodo2;
@@ -33,11 +33,11 @@ public class VOWay implements Comparable<VOWay>{
 		return id;
 	}
 	
-	public int getNodo1() {
+	public long getNodo1() {
 		return idNodo1;
 	}
 	
-	public int getNodo2() {
+	public long getNodo2() {
 		return idNodo2;
 	}
 	
@@ -51,8 +51,7 @@ public class VOWay implements Comparable<VOWay>{
 	
 	@Override
 	public int compareTo(VOWay arg0) {
-		// TODO Auto-generated method stub
-		return 0;	
+		return id - arg0.getId();
 	}
 
 }
