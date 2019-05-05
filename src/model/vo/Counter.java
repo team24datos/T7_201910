@@ -256,7 +256,7 @@ public class Counter
         fElements++;
         fTagCharacters++; // open angle bracket
         fTagCharacters += raw.length();
-        System.out.print("<" + raw);   // mostrar el <elemento
+       // System.out.print("<" + raw);   // mostrar el <elemento
         
         if (attrs != null) {
         	
@@ -272,7 +272,7 @@ public class Counter
                 fOtherCharacters += attrs.getValue(i).length();
                 fTagCharacters++; // close quote
 
-                System.out.print(" " + attrs.getQName(i) + "=" + attrs.getValue(i)); // mostrar nombre_atributo=valor_atributo
+                //System.out.print(" " + attrs.getQName(i) + "=" + attrs.getValue(i)); // mostrar nombre_atributo=valor_atributo
             }
         }
         
@@ -282,12 +282,14 @@ public class Counter
         	double lat = 0.0;
         	double lon = 0.0;
         	
-        	idNodo = Integer.parseInt(attrs.getValue(0));
-        	lat = Double.parseDouble(attrs.getValue(1));
-        	lon = Double.parseDouble(attrs.getValue(2));
+        	idNodo = Integer.parseInt(attrs.getValue(0).trim());
+        	lat = Double.parseDouble(attrs.getValue(1).trim());
+        	lon = Double.parseDouble(attrs.getValue(2).trim());
         	
         	VOIntersections nuevoNodo = new VOIntersections(idNodo, lat, lon);
         	grafo.addVertex(idNodo, nuevoNodo);
+        	
+        	System.out.println(grafo.V());
         }
         else if(raw.equalsIgnoreCase("way")) {
         	
@@ -307,7 +309,7 @@ public class Counter
         	}
         }
 
-        System.out.println(">");   // terminar elemento>
+        //System.out.println(">");   // terminar elemento>
 
         fTagCharacters++; // close angle bracket
 
