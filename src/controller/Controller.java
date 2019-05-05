@@ -39,14 +39,23 @@ import view.MovingViolationsManagerView;
 
 public class Controller {
 
+	// Atributos ------------------------------------------------------------------
+	
+	/** Vista del controlador */
 	private MovingViolationsManagerView view;
+	
+	/** Grafo donde se almacena toda la red vial de Washington con arcos de tipo highway */
 	private Grafo grafo;
 	
-
+	// Constructor -------------------------------------------------------------------
+	
+	/**
+	 * Construye el controlador 
+	 */
 	public Controller() 
 	{
 		view = new MovingViolationsManagerView();
-		grafo= new Grafo<Integer,VOIntersections,VOWay>();
+		grafo= new Grafo<Long,VOIntersections,VOWay>();
 	}
 
 
