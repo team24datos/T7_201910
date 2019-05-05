@@ -289,7 +289,6 @@ public class Counter
         	VOIntersections nuevoNodo = new VOIntersections(idNodo, lat, lon);
         	grafo.addVertex(idNodo, nuevoNodo);
         	
-        	System.out.println(grafo.V());
         }
         else if(raw.equalsIgnoreCase("way")) {
         	
