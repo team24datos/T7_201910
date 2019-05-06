@@ -3,8 +3,6 @@ package controller;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-
-
 import java.io.FileWriter;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -14,13 +12,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.Scanner;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
-
 import model.data_structures.ArregloDinamico;
 import model.data_structures.BST;
 import model.data_structures.Grafo;
@@ -83,11 +79,10 @@ public class Controller {
 			//Recorre las posibles opciones que ingresa el usuario al ejecutar el programa.
 			switch(option){
 			case 0:
-				//Counter contador = new Counter();
-				//grafo = contador.load(args);
-//				System.out.println();
-//				System.out.println("Ya se carg� el grafo desde xlm");
-//				System.out.println("numero de nodos: " + grafo.V() + ", numero de arcos: " + grafo.E());
+				grafo = contador.load(args);
+				System.out.println();
+				System.out.println("Ya se carg� el grafo desde xlm");
+				System.out.println("numero de nodos: " + grafo.V() + ", numero de arcos: " + grafo.E());
 				try {
 					
 					cargarInfracciones();
@@ -96,10 +91,6 @@ public class Controller {
 					System.out.println(e.getMessage());
 				}
 				System.out.println("Ya se cargaron las infracciones desde csv");
-				grafo = contador.load(args);
-				System.out.println();
-				System.out.println("Ya se carg� el grafo desde xlm");
-				System.out.println("numero de nodos: " + grafo.V() + ", numero de arcos: " + grafo.E());
 				break;
 
 			case 1:
@@ -140,7 +131,7 @@ public class Controller {
 		meses[0] = "January";
 		meses[1] = "February";
 		meses[2] = "March";
-		meses[3] = "April";
+		meses[3] = "Abril";
 		meses[4] = "May";
 		meses[5] = "June";
 		meses[6] = "July";
@@ -179,13 +170,13 @@ public class Controller {
 		br.readLine();
 		String linea = br.readLine();
 		// Va leyendo líneas hasta que llega al final del archivo. 
+		System.out.println("Comienzo de lectura de un archivo ahí...");
 		while(linea != null) {
-			// Separa los valores por ";" y lee la longitud y latitud de infracción. 
+			// Separa los valores por ";" y lee la longitud y latitud de infracción
+			contador ++; 
 			String arreglo[] = linea.split(";");
-			int id1 = Integer.parseInt(arreglo[0]);
-			contador = id1;
-			double latitud = Double.parseDouble(arreglo[19]);
-			double longitud = Double.parseDouble(arreglo[20]);
+			double latitud = Double.parseDouble(arreglo[18].replaceAll(",", "."));
+			double longitud = Double.parseDouble(arreglo[19].replaceAll(",", "."));
 			linea = br.readLine();
 		}
 		System.out.println("Al final se cargaron " + contador + " infracciones");
