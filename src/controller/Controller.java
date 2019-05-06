@@ -59,6 +59,7 @@ public class Controller {
 		view = new MovingViolationsManagerView();
 		grafo= new Grafo<Long,VOIntersections,VOWay>();
 		grafoJson = new Grafo<Long,VOIntersections,VOWay>();
+
 	}
 
 	/**
@@ -83,6 +84,8 @@ public class Controller {
 				grafo = contador.load(args);
 				System.out.println();
 				System.out.println("Ya se cargï¿½ el grafo desde xlm");
+				
+				System.out.println("numero de nodos: " + grafo.V() + ", numero de arcos: " + grafo.E());
 				break;
 
 			case 1:
@@ -282,7 +285,7 @@ public class Controller {
 			writer.close();
 			System.out.println("Archivo Json guardado correctamente");
 			//
-			// ARCOS (Opción 2 guardarlos por aparte)
+			// ARCOS (Opciï¿½n 2 guardarlos por aparte)
 			//
 			//writer.name("Arcos");
 			//writer.beginArray();
