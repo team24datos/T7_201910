@@ -54,7 +54,7 @@ public class Controller {
 	 */
 	public Controller() {
 		view = new MovingViolationsManagerView();
-		grafo= new Grafo<Long,VOIntersections,VOWay>();
+		//grafo= new Grafo<Long,VOIntersections,VOWay>();
 	}
 
 	/**
@@ -78,6 +78,8 @@ public class Controller {
 				grafo = contador.load(args);
 				System.out.println();
 				System.out.println("Ya se carg� el grafo desde xlm");
+				
+				System.out.println("numero de nodos: " + grafo.V() + ", numero de arcos: " + grafo.E());
 				break;
 
 			case 1:
