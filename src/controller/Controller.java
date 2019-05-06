@@ -52,31 +52,30 @@ public class Controller {
 	/**
 	 * Construye el controlador 
 	 */
-	public Controller() 
-	{
+	public Controller() {
 		view = new MovingViolationsManagerView();
 		grafo= new Grafo<Long,VOIntersections,VOWay>();
 	}
 
-
+	/**
+	 * Corre el programa con los argumentos que le entraron por parámetro al main
+	 * @param args
+	 */
 	public void run(String args[]) {
 		Scanner sc = new Scanner(System.in);
 		boolean fin=false;
-		Controller controller = new Controller();
-		Counter contador = new Counter();
-		grafo = contador.load(args);
-
-		while(!fin)
-		{
-			
-			
+		// Mantiene el programa corriendo hasta que el usuario decida temrinarlo. 
+		while(!fin) {
 			view.printMenu();
-
 			int option = sc.nextInt();
-
+			Controller controller = new Controller();
+			//Recorre las posibles opciones que ingresa el usuario al ejecutar el programa.
 			switch(option)
 			{
 			case 0:
+				
+				Counter contador = new Counter();
+				grafo = contador.load(args);
 				System.out.println("Ya se carg� el grafo desde xlm");
 				break;
 
