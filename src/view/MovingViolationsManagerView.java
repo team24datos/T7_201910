@@ -24,10 +24,10 @@ public class MovingViolationsManagerView
 	
 	public void printMenu() {
 		System.out.println("---------ISIS 1206 - Estructuras de datos----------");
-		System.out.println("---------------------Proyecto 2----------------------");
-		System.out.println("0. Cargar datos del semestre");
-		System.out.println("1. Obtener la información de una infracción específica dado su OBJECT_ID");
-		System.out.println("2. Encontrar todas las infracciones que se encuentran en un rango de OBJECT_ID's dado");
+		System.out.println("---------------------Proyecto 3----------------------");
+		System.out.println("0. Carga del grafo desde xlm");
+		System.out.println("1. Guarda el grafo en un Json");
+		System.out.println("2. Carga del grafo desde un Json");
 		System.out.println("3. Salir");
 		System.out.println("Digite el número de opción para ejecutar la tarea, luego presione enter: (Ej., 1):");
 		

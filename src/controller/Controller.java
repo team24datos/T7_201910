@@ -76,7 +76,7 @@ public class Controller {
 			switch(option)
 			{
 			case 0:
-				System.out.println("Carga del grafo desde xlm");
+				System.out.println("Ya se cargó el grafo desde xlm");
 				break;
 
 			case 1:
