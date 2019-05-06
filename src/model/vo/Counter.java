@@ -270,30 +270,6 @@ public class Counter
      * <elemento atr1=val1 atr2=val2 ... atrN=valN/>
      */
     public void startElement(String uri, String local, String raw, Attributes attrs) throws SAXException {
-
-        fElements++;
-        fTagCharacters++; // open angle bracket
-        fTagCharacters += raw.length();
-       // System.out.print("<" + raw);   // mostrar el <elemento
-        
-        if (attrs != null) {
-        	
-        	int attrCount = attrs.getLength();
-            fAttributes += attrCount;
-
-            for (int i = 0; i < attrCount; i++) {  // identificacion de los atributos y su valor respectivo
-
-                fTagCharacters++; // space
-                fTagCharacters += attrs.getQName(i).length();
-                fTagCharacters++; // '='
-                fTagCharacters++; // open quote
-                fOtherCharacters += attrs.getValue(i).length();
-                fTagCharacters++; // close quote
-
-                //System.out.print(" " + attrs.getQName(i) + "=" + attrs.getValue(i)); // mostrar nombre_atributo=valor_atributo
-            }
-        }
-        
         // Si el raw es un nodo entonces entra a este condicional
         if(raw.equalsIgnoreCase("node")) {
         	// Inicializa los valores que van a tomar el identificador y la longitud y latitud. 
@@ -328,11 +304,11 @@ public class Counter
         			System.out.println(" inválido");
         		}
         	}
-        	// Se lee el identificador del way y se crea un arreglo con los nodos que conecta este camino. 
+        	// Se lee el identificador del way y se crea un arreglo con los nodos que conecta este camino.
+        	// Se preparan los atributos para la lectura de un nuevo camino.
         	idWay = Long.parseLong(attrs.getValue(0));
         	ok = false; 
         	arregloNodos.clear();
-        	
         }
         // Si lee un nodo simplemente lo agrega al arreglo dinámico de referencias de nodos. 
         else if(raw.equalsIgnoreCase("nd")) {
@@ -343,7 +319,6 @@ public class Counter
         		ok = true;
         	}
         }
-
     } // startElement(String,String,StringAttributes)
 
     /** Characters. */
