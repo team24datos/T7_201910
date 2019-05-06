@@ -34,6 +34,10 @@ public class Grafo <K extends Comparable<K>, V, A extends Comparable<A>> impleme
 	// M�todos
 	// -----------------------------------------------------------------
 	
+//	public Vertice buscarVerticeMasCercano(double pLatitud, double pLongitud) {
+//		
+//	}
+	
 	public int V() 
 	{
 		return cantVertices;

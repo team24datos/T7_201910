@@ -1,5 +1,7 @@
 package controller;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 
 
@@ -59,9 +61,10 @@ public class Controller {
 		view = new MovingViolationsManagerView();
 		grafo= new Grafo<Long,VOIntersections,VOWay>();
 		grafoJson = new Grafo<Long,VOIntersections,VOWay>();
-
 	}
 
+	// Métodos -----------------------------------------------------------------------------
+	
 	/**
 	 * Corre el programa con los argumentos que le entraron por parámetro al main
 	 * @param args
@@ -76,16 +79,21 @@ public class Controller {
 			int option = sc.nextInt();
 			Controller controller = new Controller();
 			//Recorre las posibles opciones que ingresa el usuario al ejecutar el programa.
-			switch(option)
-			{
+			switch(option){
 			case 0:
-
 				//Counter contador = new Counter();
-				grafo = contador.load(args);
-				System.out.println();
-				System.out.println("Ya se carg� el grafo desde xlm");
-				
-				System.out.println("numero de nodos: " + grafo.V() + ", numero de arcos: " + grafo.E());
+				//grafo = contador.load(args);
+//				System.out.println();
+//				System.out.println("Ya se carg� el grafo desde xlm");
+//				System.out.println("numero de nodos: " + grafo.V() + ", numero de arcos: " + grafo.E());
+				try {
+					System.out.println("holis mk");
+					cargarInfracciones();
+				}
+				catch(Exception e) {
+					System.out.println(e.getMessage());
+				}
+				System.out.println("Ya se cargaron las infracciones desde csv");
 				break;
 
 			case 1:
@@ -111,7 +119,72 @@ public class Controller {
 
 	}
 
+	/**
+	 * Determina cuál de los cuatrimestres convoca al método que los carga en órdne 
+	 * @param pCuatrimestre
+	 * @throws Exception
+	 */
+	public void cargarInfracciones() throws Exception {
+		// Mete a un arreglo los meses para después poder leer los archivos en un ciclo.
+		// Se declaran parte inicial y final de la ruta que tienen todos en común. 
+		String meses[] = new String[12];
+		String rutai = "data/";
+		String rutaf = "_wgs84.csv";
+		meses[0] = "January";
+		meses[1] = "February";
+		meses[2] = "March";
+		meses[3] = "April";
+		meses[4] = "May";
+		meses[5] = "June";
+		meses[6] = "July";
+		meses[7] = "August";
+		meses[8] = "September";
+		meses[9] = "October";
+		meses[10] = "November";
+		meses[11] = "December";
+		// Recorrido que va procesando los archivos por mes.
+		for(int i = 1; i < 12; i++) {
+			// Intenta crear un archivo con la ruta creada a partir del mes
+			// Llama al método que carga el archivo y los convierte a objetos de tipo VOMovingViolations
+			System.out.println(rutai + meses[i] + rutaf);
+			try {
+				File f = new File(rutai + meses[i] + rutaf);
+				System.out.println("Se va a cargar el mes de " + meses[i]);
+				leerInfraccionesdeArchivo(f);
+			}
+			// Si no funciona lanza excepción. 
+			catch(Exception e) {
+				throw e;
+			}
+		}
+	}
 
+	/**
+	 * Lee la información de un archivo que le llega por parámetro y se encarga de meterlo al arreglo 
+	 * @param pArchivo
+	 * @throws Exception
+	 */
+	public void leerInfraccionesdeArchivo(File pArchivo) throws Exception {
+		// Crea un lector que lee la información del archivo dada por parámetro. 
+		FileReader lector = new FileReader(pArchivo);
+		BufferedReader br = new BufferedReader(lector);
+		int contador = 0;
+		br.readLine();
+		String linea = br.readLine();
+		// Va leyendo líneas hasta que llega al final del archivo. 
+		while(linea != null) {
+			// Separa los valores por ";" y lee la longitud y latitud de infracción. 
+			String arreglo[] = linea.split(";");
+			int id1 = Integer.parseInt(arreglo[0]);
+			contador = id1;
+			double latitud = Double.parseDouble(arreglo[19]);
+			double longitud = Double.parseDouble(arreglo[20]);
+			linea = br.readLine();
+		}
+		System.out.println("Al final se cargaron " + contador + " infracciones");
+	}
+	
+	
 	public void loadIntersectionsJson(String ruta) 
 	{
 		int numCargados=0;
