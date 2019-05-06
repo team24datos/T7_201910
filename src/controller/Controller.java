@@ -151,36 +151,42 @@ public class Controller {
 					//System.out.print("c");
 				}
 				VOIntersections nuevaInter= new VOIntersections(ID, LAT, LON);
-				JsonArray JAdj= objeto.get("ADJ").getAsJsonArray();
 				LinkedList<VOWay>adj=new LinkedList<VOWay>();
-				//Pasar Adj a linked List
-				for(int j=0; JAdj != null && i < JAdj.size(); j++)
+				boolean cargoArreglo=objeto.get("ADJ").isJsonArray();
+				System.out.println(cargoArreglo);
+				if(cargoArreglo)
 				{
-					JsonObject objetoAdj = (JsonObject)arreglo.get(j);
-					int IDAdj=0;
-					JsonElement elementoIDAdj = objetoAdj.get("ID_ARC");
-					if(elementoIDAdj!=null && !elementoIDAdj.isJsonNull())
+					JsonArray JAdj= objeto.get("ADJ").getAsJsonArray();
+					
+					//Pasar Adj a linked List
+					for(int j=0; JAdj != null && i < JAdj.size(); j++)
 					{
-						IDAdj=elementoIDAdj.getAsInt();
-						//System.out.print("a");
+						JsonObject objetoAdj = (JsonObject)arreglo.get(j);
+						int IDAdj=0;
+						JsonElement elementoIDAdj = objetoAdj.get("ID_ARC");
+						if(elementoIDAdj!=null && !elementoIDAdj.isJsonNull())
+						{
+							IDAdj=elementoIDAdj.getAsInt();
+							//System.out.print("a");
+						}
+						Long NODO1=(long) 0.0;
+						JsonElement elementoNODO1 = objeto.get("NODO1");
+						if(elementoNODO1!=null && !elementoNODO1.isJsonNull())
+						{
+							NODO1=elementoNODO1.getAsLong();
+							//System.out.print("b");
+						}
+						Long NODO2=(long) 0.0;
+						JsonElement elementoNODO2 = objeto.get("NODO2");
+						if(elementoNODO2!=null && !elementoNODO2.isJsonNull())
+						{
+							NODO2=elementoNODO2.getAsLong();
+							//System.out.print("c");
+						}
+						// se crea un nuevo VOWay
+						VOWay nuevoVOWay = new VOWay(IDAdj,NODO1,NODO2);
+						adj.add(nuevoVOWay);
 					}
-					Long NODO1=(long) 0.0;
-					JsonElement elementoNODO1 = objeto.get("NODO1");
-					if(elementoNODO1!=null && !elementoNODO1.isJsonNull())
-					{
-						NODO1=elementoNODO1.getAsLong();
-						//System.out.print("b");
-					}
-					Long NODO2=(long) 0.0;
-					JsonElement elementoNODO2 = objeto.get("NODO2");
-					if(elementoNODO2!=null && !elementoNODO2.isJsonNull())
-					{
-						NODO2=elementoNODO2.getAsLong();
-						//System.out.print("c");
-					}
-					// se crea un nuevo VOWay
-					VOWay nuevoVOWay = new VOWay(IDAdj,NODO1,NODO2);
-					adj.add(nuevoVOWay);
 				}
 
 
