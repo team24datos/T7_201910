@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import java.util.Iterator;
 
+import model.vo.VOWay;
+
 public class Grafo <K extends Comparable<K>, V, A extends Comparable<A>> implements Serializable
 {
 	// -----------------------------------------------------------------
@@ -47,6 +49,22 @@ public class Grafo <K extends Comparable<K>, V, A extends Comparable<A>> impleme
 		Vertice nuevoVertice = new Vertice(idVertex, infoVertex);
 		vertices.put(idVertex, nuevoVertice);
 		cantVertices++;
+	}
+
+	public void addVertexSecondForm(K idVertex, V infoVertex, LinkedList<Arco> adj) 
+	{
+		Vertice nuevoVertice = new Vertice(idVertex, infoVertex, adj);
+		vertices.put(idVertex, nuevoVertice);
+		cantVertices++;
+		NodeList<Arco> actAdj=  adj.getFirstNode();
+		
+		while(actAdj!=null && actAdj.getelem() != null)
+		{
+			arcos.add(actAdj.getelem());
+			actAdj=actAdj.getNext();
+			cantEnlaces++;
+		}
+		
 	}
 
 	
@@ -186,6 +204,14 @@ public class Grafo <K extends Comparable<K>, V, A extends Comparable<A>> impleme
 			key = pKey;
 			info = pInfo;
 			arcos = new LinkedList<Arco>();
+			marcado = false;
+		}
+		
+		public Vertice(K pKey, V pInfo, LinkedList<Arco> pAdj )
+		{
+			key = pKey;
+			info = pInfo;
+			arcos = pAdj;
 			marcado = false;
 		}
 
