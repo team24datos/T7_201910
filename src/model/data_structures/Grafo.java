@@ -56,6 +56,7 @@ public class Grafo <K extends Comparable<K>, V, A extends Comparable<A>> impleme
 		Vertice verticeFin = getVertice(idVertexFin);
 		Arco nuevoArco = new Arco(infoArc, verticeInicio, verticeFin);
 		verticeInicio.getArcos().add(nuevoArco);
+		verticeFin.getArcos().add(new Arco(infoArc, verticeFin, verticeInicio));
 		arcos.add(nuevoArco);
 		cantEnlaces++;
 	}
@@ -151,7 +152,7 @@ public class Grafo <K extends Comparable<K>, V, A extends Comparable<A>> impleme
 		}
 	}
 
-	private Vertice getVertice(K idVertex)
+	public Vertice getVertice(K idVertex)
 	{
 		return vertices.get(idVertex);
 	}
@@ -170,7 +171,7 @@ public class Grafo <K extends Comparable<K>, V, A extends Comparable<A>> impleme
 	// -----------------------------------------------------------------
 	// Clases
 	// -----------------------------------------------------------------
-	private class Vertice implements Serializable
+	public class Vertice implements Serializable
 	{
 		private K key;
 

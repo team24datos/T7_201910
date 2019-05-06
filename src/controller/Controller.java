@@ -24,7 +24,9 @@ import model.data_structures.BST;
 import model.data_structures.Grafo;
 import model.data_structures.IQueue;
 import model.data_structures.IStack;
+import model.data_structures.LinkedList;
 import model.data_structures.MaxColaPrioridad;
+import model.data_structures.NodeList;
 import model.data_structures.RedBlackBST;
 import model.data_structures.TablaHash;
 import model.vo.Counter;
@@ -172,17 +174,34 @@ public class Controller {
 		}
 	}
 	
+	private void toJson1()
+	{
+		Iterator<VOIntersections>  itVertices=grafo.iteratorVertices();
+		
+		while(itVertices.hasNext())
+		{
+			VOIntersections actual= itVertices.next();
+			JsonObject obj = new JsonObject();
+			//JsonElement joe= actual.getId();
+			//obj.add("ID", actual.getId() );
+			
+		}
+		
+		
+	}
+	
 	private void toJson()
 	{
 		JsonWriter writer;
 		try
 		{
+			
 			writer = new JsonWriter(new FileWriter("./data/WashingtonVertices.json"));
 			writer.beginObject();
 			//
 			// VERTICES
 			//
-			writer.name("Vertices");
+			writer.name("VERTICES");
 			writer.beginArray();
 			Iterator<VOIntersections>  itVertices=grafo.iteratorVertices();
 			
@@ -193,18 +212,38 @@ public class Controller {
 				writer.name("ID").value(actual.getId());
 				writer.name("LAT").value(actual.getLat());
 				writer.name("LON").value(actual.getLon());
-				//DUDA!! adyacentes??
+				//
+				//Se escriben los adyacentes
+				//
+				
+				writer.beginArray();
+				LinkedList<VOWay> adj = grafo.getVertice(actual.getId()).getArcos();
+				NodeList<VOWay> actAdj=  adj.getFirstNode();
+				VOWay actElement=actAdj.getelem();
+				while(actAdj!=null && actElement!=null)
+				{
+					writer.beginObject();
+					
+					writer.name("ID_ARC").value(actElement.getId());
+					writer.name("NODO1").value(actElement.getNodo1());
+					writer.name("NODO2").value(actElement.getNodo2());
+					
+					writer.endObject();	
+					actAdj=actAdj.getNext();
+				}
+				
+				writer.endArray();
 				writer.endObject();				
 			}
 			writer.endArray();
 			writer.endObject();
 			//
-			// ARCOS
+			// ARCOS (Opción 2 guardarlos por aparte
 			//
-			writer.name("Arcos");
-			writer.beginArray();
-			//Corregir de acuerdo a Santiago
-			Iterator<VOMovingViolations> itArcos;
+			//writer.name("Arcos");
+			//writer.beginArray();
+			//grafo.iteratorArcos();
+			
 			//TODO
 		}
 		catch(Exception e)
