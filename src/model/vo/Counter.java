@@ -204,25 +204,11 @@ public class Counter
     //
 
     /** Prints the results. */
-    public void printResults(PrintWriter out, String uri, long time,
-                             long memory, boolean tagginess,
-                             int repetition) {
-
+    public void printResults(PrintWriter out, String uri, long time, long memory, boolean tagginess, int repetition) {
         // filename.xml: 631 ms (4 elems, 0 attrs, 78 spaces, 0 chars)
-        
-        System.out.println();
-        System.out.println("Información sobre el grafo: ");
-        System.out.println("La cantidad de vertices = " + grafo.V() + ", La cantidad de arcos = " + grafo.E() + " debería ser igual a: " + generadorCodigosArcos );
-        System.out.println();
-    	
         out.println();
         out.flush();
-
     } // printResults(PrintWriter,String,long)
-
-    //
-    // ContentHandler methods
-    //
 
     /** Start document. */
     public void startDocument() throws SAXException {
@@ -262,17 +248,12 @@ public class Counter
         		// Imprimir elementos del way anterior
         		//System.out.println("Se leyó un way:");
         		if(ok == true){
-        			//System.out.print(" válido:");
-        			//System.out.println("Id: " + idWay + " primeros nodos: " + arregloNodos.get(0) + ", " + arregloNodos.get(1));
         			//Cuando lee un way válido (De tipo "highway") entonces procede a agregar los arcos del grafo. 
         			//Recorre el arreglo y va creando los arcos entre los dos nodos consecutivos. 
         			for(int i = 0; i < arregloNodos.size()-1; i++) {
         				grafo.addEdge(arregloNodos.get(i), arregloNodos.get(i+1),new VOWay(generadorCodigosArcos,arregloNodos.get(i),arregloNodos.get(i+1)));
         				generadorCodigosArcos++;
         			}
-        		}
-        		else {
-        			//System.out.println(" inválido");
         		}
         	}
         	// Se lee el identificador del way y se crea un arreglo con los nodos que conecta este camino.
@@ -293,11 +274,8 @@ public class Counter
     } // startElement(String,String,StringAttributes)
 
     /** Characters. */
-    public void characters(char ch[], int start, int length)
-        throws SAXException {
-
+    public void characters(char ch[], int start, int length) throws SAXException {
         fCharacters += length;
-
     } // characters(char[],int,int);
 
     /** Ignorable whitespace. */
@@ -669,9 +647,6 @@ public class Counter
 
             }
         }
-        
-        System.out.println("Cantidad V: "+grafo.V()+" Cantidad E: "+grafo.E());
-        
         return grafo;
 
     } // main(String[])

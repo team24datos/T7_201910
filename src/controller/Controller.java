@@ -1,8 +1,8 @@
 package controller;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
-
-
 import java.io.FileWriter;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -12,13 +12,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.Scanner;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
-
 import model.data_structures.ArregloDinamico;
 import model.data_structures.BST;
 import model.data_structures.Grafo;
@@ -61,9 +59,10 @@ public class Controller {
 		view = new MovingViolationsManagerView();
 		//grafo= new Grafo<Long,VOIntersections,VOWay>();
 		grafoJson = new Grafo<Long,VOIntersections,VOWay>();
-
 	}
 
+	// Métodos -----------------------------------------------------------------------------
+	
 	/**
 	 * Corre el programa con los argumentos que le entraron por parámetro al main
 	 * @param args
@@ -78,16 +77,23 @@ public class Controller {
 			int option = sc.nextInt();
 			Controller controller = new Controller();
 			//Recorre las posibles opciones que ingresa el usuario al ejecutar el programa.
-			switch(option)
-			{
+			switch(option){
 			case 0:
-
-				//Counter contador = new Counter();
 				grafo = contador.load(args);
 				System.out.println();
-				System.out.println("Ya se carg� el grafo desde xlm");
-
+				System.out.println("Ya se cargó el grafo con la información del archivo .XML:");
+				System.out.println("-------------- Información del grafo: ------------ ");
 				System.out.println("numero de nodos: " + grafo.V() + ", numero de arcos: " + grafo.E());
+				try {
+					System.out.println();
+					System.out.println("Lectura de documento con las infracciones de los archivos. CSV:");
+					System.out.println("--------------Información de la carga:---------------");
+					cargarInfracciones();
+				}
+				catch(Exception e) {
+					System.out.println(e.getMessage());
+				}
+				System.out.println("Ya se cargaron las infracciones desde csv");
 				break;
 
 			case 1:
@@ -114,7 +120,72 @@ public class Controller {
 
 	}
 
+	/**
+	 * Determina cuál de los cuatrimestres convoca al método que los carga en órdne 
+	 * @param pCuatrimestre
+	 * @throws Exception
+	 */
+	public void cargarInfracciones() throws Exception {
+		// Mete a un arreglo los meses para después poder leer los archivos en un ciclo.
+		// Se declaran parte inicial y final de la ruta que tienen todos en común. 
+		int cantidadDeInfracciones = 0; 
+		String meses[] = new String[12];
+		String rutai = "data/";
+		String rutaf = "_wgs84.csv";
+		meses[0] = "January";
+		meses[1] = "February";
+		meses[2] = "March";
+		meses[3] = "Abril";
+		meses[4] = "May";
+		meses[5] = "June";
+		meses[6] = "July";
+		meses[7] = "August";
+		meses[8] = "September";
+		meses[9] = "October";
+		meses[10] = "November";
+		meses[11] = "December";
+		// Recorrido que va procesando los archivos por mes.
+		for(int i = 1; i < 12; i++) {
+			// Intenta crear un archivo con la ruta creada a partir del mes
+			// Llama al método que carga el archivo y los convierte a objetos de tipo VOMovingViolations
+			try {
+				File f = new File(rutai + meses[i] + rutaf);
+				System.out.println("Se va a cargar el mes de " + meses[i] + " y se han cargado hasta el momento " + cantidadDeInfracciones + " datos. ");
+				cantidadDeInfracciones += leerInfraccionesdeArchivo(f);
+			}
+			// Si no funciona lanza excepción. 
+			catch(Exception e) {
+				throw e;
+			}
+		}
+	}
 
+	/**
+	 * Lee la información de un archivo que le llega por parámetro y se encarga de meterlo al arreglo 
+	 * @param pArchivo
+	 * @throws Exception
+	 */
+	public int leerInfraccionesdeArchivo(File pArchivo) throws Exception {
+		// Crea un lector que lee la información del archivo dada por parámetro. 
+		// También se crea un contador que después se retorna para ver cuántas infracciones se han cargado. 
+		FileReader lector = new FileReader(pArchivo);
+		BufferedReader br = new BufferedReader(lector);
+		int contador = 0;
+		br.readLine();
+		String linea = br.readLine();
+		// Va leyendo líneas hasta que llega al final del archivo. 
+		while(linea != null) {
+			// Separa los valores por ";" y lee la longitud y latitud de infracción
+			contador ++; 
+			String arreglo[] = linea.split(";");
+			double latitud = Double.parseDouble(arreglo[18].replaceAll(",", "."));
+			double longitud = Double.parseDouble(arreglo[19].replaceAll(",", "."));
+			linea = br.readLine();
+		}
+		return contador;
+	}
+	
+	
 	public void loadIntersectionsJson(String ruta) 
 	{
 		int numCargados=0;
