@@ -62,7 +62,7 @@ public class Controller {
 	}
 
 	// Métodos -----------------------------------------------------------------------------
-	
+
 	/**
 	 * Corre el programa con los argumentos que le entraron por parámetro al main
 	 * @param args
@@ -105,9 +105,10 @@ public class Controller {
 
 			case 2:
 				System.out.println("Carga del grafo desde un Json");
-				String rutaInt= "./data//WashingtonGraph.json";
-				String rutaWay= "./data/";
-				controller.loadGraphFromJson(rutaInt);
+				String rutaCenter= "./data//CenterWashingtonGraph.json";
+				String rutaWashington= "./data//WashingtonGraph.json";
+				controller.loadGraphFromJson(rutaCenter);
+				
 				//controller.loadWaysJson(rutaWay);
 				break;
 
@@ -184,8 +185,8 @@ public class Controller {
 		}
 		return contador;
 	}
-	
-	
+
+
 	public void loadGraphFromJson(String ruta) 
 	{
 		int numCargados=0;
@@ -194,7 +195,7 @@ public class Controller {
 		{
 			Reader reader = Files.newBufferedReader(Paths.get(ruta));
 			JsonArray arreglo = (JsonArray)parser.parse(new FileReader(ruta));
-			
+
 			for(int i=0; arreglo != null && i < arreglo.size(); i++)
 			{
 				//System.out.println("Entra for");
@@ -230,7 +231,7 @@ public class Controller {
 				if(cargoArreglo)
 				{
 					JsonArray JAdj=(JsonArray) objeto.get("ADJ").getAsJsonArray();
-					
+
 					//Pasar Adj a linked List
 					for(int j=0; JAdj != null && i < JAdj.size(); j++)
 					{
@@ -262,8 +263,6 @@ public class Controller {
 					}
 				}
 
-
-
 				//Agregar vertice al grafo
 				grafoJson.addVertexSecondForm(nuevaInter.getId(), nuevaInter, adj);
 				numCargados++;
@@ -275,45 +274,8 @@ public class Controller {
 			System.out.println(e.getMessage());
 		}
 	}
-	public void loadWaysJson(String ruta) 
-	{
-		int numCargados=0;
-		JsonParser parser = new JsonParser();
-		try 
-		{
-			Reader reader = Files.newBufferedReader(Paths.get(ruta));
-			JsonArray arreglo = (JsonArray)parser.parse(new FileReader(ruta));
-			for(int i=0; arreglo != null && i < arreglo.size(); i++)
-			{
-				JsonObject objeto = (JsonObject)arreglo.get(i);
-				//------------------------------------
-				//------ Lectura de atributos del Way
-				//------------------------------------
-			}
-		}
-		catch (Exception e)
-		{
-			System.out.println(e.getStackTrace().toString());
-			System.out.println(e.getMessage());
-		}
-	}
-
-	private void toJson1()
-	{
-		Iterator<VOIntersections>  itVertices=grafo.iteratorVertices();
-
-		while(itVertices.hasNext())
-		{
-			VOIntersections actual= itVertices.next();
-			JsonObject obj = new JsonObject();
-			//JsonElement joe= actual.getId();
-			//obj.add("ID", actual.getId() );
-
-		}
-
-
-	}
-
+	
+	
 	private void toJson()
 	{
 		JsonWriter writer;
@@ -332,32 +294,35 @@ public class Controller {
 
 			while(itVertices.hasNext())
 			{
-				
 				Vertice v=itVertices.next();
 				VOIntersections actual= (VOIntersections)v.getInfo();
-				writer.beginObject();
-				writer.name("ID").value(actual.getId());
-				writer.name("LAT").value(actual.getLat());
-				writer.name("LON").value(actual.getLon());
-				//
-				//Se escriben los adyacentes
-				//
-				writer.name("ADJ");
-				writer.beginArray();
+				
+				//No se guarda si no tiene adyacentes
 				if(v.getArcos().getSize()==0)
 				{
-
+					continue;
 				}
+				
 				else
-
 				{
+					writer.beginObject();
+					writer.name("ID").value(actual.getId());
+					writer.name("LAT").value(actual.getLat());
+					writer.name("LON").value(actual.getLon());
+					
+					//
+					//Se escriben los adyacentes
+					//
+					writer.name("ADJ");
+					writer.beginArray();
+
 					LinkedList adj = v.getArcos();
 					NodeList<Arco> actAdj=  adj.getFirstNode();
 					VOWay actElement=(VOWay) actAdj.getelem().getInfoArco();
 					while(actAdj!=null && actElement!=null)
 					{
-
 						writer.beginObject();
+						
 						writer.name("ID_ARC").value(actElement.getId());
 						writer.name("NODO1").value(actElement.getNodo1());
 						writer.name("NODO2").value(actElement.getNodo2());
@@ -391,4 +356,43 @@ public class Controller {
 		}
 	}
 
+	public void loadWaysJson(String ruta) 
+	{
+		int numCargados=0;
+		JsonParser parser = new JsonParser();
+		try 
+		{
+			Reader reader = Files.newBufferedReader(Paths.get(ruta));
+			JsonArray arreglo = (JsonArray)parser.parse(new FileReader(ruta));
+			for(int i=0; arreglo != null && i < arreglo.size(); i++)
+			{
+				JsonObject objeto = (JsonObject)arreglo.get(i);
+				//------------------------------------
+				//------ Lectura de atributos del Way
+				//------------------------------------
+			}
+		}
+		catch (Exception e)
+		{
+			System.out.println(e.getStackTrace().toString());
+			System.out.println(e.getMessage());
+		}
+	}
+
+	
+	private void toJson1()
+	{
+		Iterator<VOIntersections>  itVertices=grafo.iteratorVertices();
+
+		while(itVertices.hasNext())
+		{
+			VOIntersections actual= itVertices.next();
+			JsonObject obj = new JsonObject();
+			//JsonElement joe= actual.getId();
+			//obj.add("ID", actual.getId() );
+
+		}
+
+
+	}
 }
