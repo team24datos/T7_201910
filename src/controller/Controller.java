@@ -22,6 +22,8 @@ import com.google.gson.stream.JsonWriter;
 import model.data_structures.ArregloDinamico;
 import model.data_structures.BST;
 import model.data_structures.Grafo;
+import model.data_structures.Grafo.Arco;
+import model.data_structures.Grafo.Vertice;
 import model.data_structures.IQueue;
 import model.data_structures.IStack;
 import model.data_structures.LinkedList;
@@ -47,7 +49,7 @@ public class Controller {
 	private MovingViolationsManagerView view;
 
 	/** Grafo donde se almacena toda la red vial de Washington con arcos de tipo highway */
-	private Grafo grafo;
+	private static Grafo grafo;
 
 	private Grafo grafoJson;
 	// Constructor -------------------------------------------------------------------
@@ -57,7 +59,7 @@ public class Controller {
 	 */
 	public Controller() {
 		view = new MovingViolationsManagerView();
-		grafo= new Grafo<Long,VOIntersections,VOWay>();
+		//grafo= new Grafo<Long,VOIntersections,VOWay>();
 		grafoJson = new Grafo<Long,VOIntersections,VOWay>();
 
 	}
@@ -84,12 +86,13 @@ public class Controller {
 				grafo = contador.load(args);
 				System.out.println();
 				System.out.println("Ya se carg� el grafo desde xlm");
-				
+
 				System.out.println("numero de nodos: " + grafo.V() + ", numero de arcos: " + grafo.E());
 				break;
 
 			case 1:
-				System.out.println("grafo E: "+grafo.E());
+				System.out.println("Antes grafo E: "+grafo.E());
+				//System.out.println(grafo.iteratorVertices().next().toString());
 				controller.toJson();
 
 				break;
@@ -235,6 +238,7 @@ public class Controller {
 	private void toJson()
 	{
 		JsonWriter writer;
+		System.out.println("Cantidad V: "+grafo.V()+" Cantidad E: "+grafo.E());
 		try
 		{
 
@@ -245,12 +249,14 @@ public class Controller {
 			//
 			writer.name("VERTICES");
 			writer.beginArray();
-			Iterator<VOIntersections>  itVertices=grafo.iteratorVertices();
+
+			Iterator<Vertice>  itVertices = grafo.iteratorVertices();
 
 			while(itVertices.hasNext())
 			{
 				System.out.println("Entra While");
-				VOIntersections actual= itVertices.next();
+				Vertice v=itVertices.next();
+				VOIntersections actual= (VOIntersections)v.getInfo();
 				writer.beginObject();
 				writer.name("ID").value(actual.getId());
 				writer.name("LAT").value(actual.getLat());
@@ -260,21 +266,28 @@ public class Controller {
 				//
 				writer.name("ADJ");
 				writer.beginArray();
-				LinkedList<VOWay> adj = grafo.getVertice(actual.getId()).getArcos();
-				NodeList<VOWay> actAdj=  adj.getFirstNode();
-				VOWay actElement=actAdj.getelem();
-				while(actAdj!=null && actElement!=null)
+				if(v.getArcos().getSize()==0)
 				{
 
-					writer.beginObject();
-					writer.name("ID_ARC").value(actElement.getId());
-					writer.name("NODO1").value(actElement.getNodo1());
-					writer.name("NODO2").value(actElement.getNodo2());
-
-					writer.endObject();	
-					actAdj=actAdj.getNext();
 				}
+				else
 
+				{
+					LinkedList adj = v.getArcos();
+					NodeList<Arco> actAdj=  adj.getFirstNode();
+					VOWay actElement=(VOWay) actAdj.getelem().getInfoArco();
+					while(actAdj!=null && actElement!=null)
+					{
+
+						writer.beginObject();
+						writer.name("ID_ARC").value(actElement.getId());
+						writer.name("NODO1").value(actElement.getNodo1());
+						writer.name("NODO2").value(actElement.getNodo2());
+
+						writer.endObject();	
+						actAdj=actAdj.getNext();
+					}
+				}
 				writer.endArray();
 				writer.endObject();				
 			}

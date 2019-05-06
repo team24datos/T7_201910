@@ -272,7 +272,7 @@ public class Counter
         			}
         		}
         		else {
-        			System.out.println(" inválido");
+        			//System.out.println(" inválido");
         		}
         	}
         	// Se lee el identificador del way y se crea un arreglo con los nodos que conecta este camino.
