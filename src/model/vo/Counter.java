@@ -260,10 +260,10 @@ public class Counter
         	//Revisa que el primer elemento no sea inválido y lo agregue por error
         	if(idWay != 0) {
         		// Imprimir elementos del way anterior
-        		System.out.println("Se leyó un way:");
+        		//System.out.println("Se leyó un way:");
         		if(ok == true){
-        			System.out.print(" válido:");
-        			System.out.println("Id: " + idWay + " primeros nodos: " + arregloNodos.get(0) + ", " + arregloNodos.get(1));
+        			//System.out.print(" válido:");
+        			//System.out.println("Id: " + idWay + " primeros nodos: " + arregloNodos.get(0) + ", " + arregloNodos.get(1));
         			//Cuando lee un way válido (De tipo "highway") entonces procede a agregar los arcos del grafo. 
         			//Recorre el arreglo y va creando los arcos entre los dos nodos consecutivos. 
         			for(int i = 0; i < arregloNodos.size()-1; i++) {
