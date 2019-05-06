@@ -1,9 +1,10 @@
 package model.data_structures;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class LinkedList<T extends Comparable<T>> {
+public class LinkedList<T extends Comparable<T>> implements Serializable {
 	// -----------------------------------------------------------------
     // Atributos
     // -----------------------------------------------------------------
