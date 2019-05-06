@@ -122,6 +122,7 @@ public class Grafo <K extends Comparable<K>, V, A extends Comparable<A>> impleme
 		return rta;
 	}
 
+	
 	public void setInfoArc(K idVertexIni, K idVertexFin, A infoArc) 
 	{
 		Arco buscado = getArco(idVertexIni, idVertexFin);
@@ -179,6 +180,10 @@ public class Grafo <K extends Comparable<K>, V, A extends Comparable<A>> impleme
 		return vertices.get(idVertex);
 	}
 
+	public TablaHash<K, Vertice> getVertices()
+	{
+		return vertices;
+	}
 	private Vertice getVerticeSecondForm(K idVertex)
 	{
 		return vertices.getSecondForm(idVertex);
@@ -256,7 +261,7 @@ public class Grafo <K extends Comparable<K>, V, A extends Comparable<A>> impleme
 		}
 	}
 
-	private class Arco implements Comparable<Arco>, Serializable
+	public class Arco implements Comparable<Arco>, Serializable
 	{
 		private A infoArco;
 
