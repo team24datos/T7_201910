@@ -107,7 +107,7 @@ public class Controller {
 				System.out.println("Carga del grafo desde un Json");
 				String rutaInt= "./data//WashingtonGraph.json";
 				String rutaWay= "./data/";
-				controller.loadIntersectionsJson(rutaInt);
+				controller.loadGraphFromJson(rutaInt);
 				//controller.loadWaysJson(rutaWay);
 				break;
 
@@ -186,7 +186,7 @@ public class Controller {
 	}
 	
 	
-	public void loadIntersectionsJson(String ruta) 
+	public void loadGraphFromJson(String ruta) 
 	{
 		int numCargados=0;
 		JsonParser parser = new JsonParser();
@@ -194,8 +194,10 @@ public class Controller {
 		{
 			Reader reader = Files.newBufferedReader(Paths.get(ruta));
 			JsonArray arreglo = (JsonArray)parser.parse(new FileReader(ruta));
+			
 			for(int i=0; arreglo != null && i < arreglo.size(); i++)
 			{
+				//System.out.println("Entra for");
 				JsonObject objeto = (JsonObject)arreglo.get(i);
 				//------------------------------------
 				//------ Lectura de atributos de la interseccion
@@ -224,10 +226,10 @@ public class Controller {
 				VOIntersections nuevaInter= new VOIntersections(ID, LAT, LON);
 				LinkedList<VOWay>adj=new LinkedList<VOWay>();
 				boolean cargoArreglo=objeto.get("ADJ").isJsonArray();
-				System.out.println(cargoArreglo);
+				//System.out.println(cargoArreglo);
 				if(cargoArreglo)
 				{
-					JsonArray JAdj= objeto.get("ADJ").getAsJsonArray();
+					JsonArray JAdj=(JsonArray) objeto.get("ADJ").getAsJsonArray();
 					
 					//Pasar Adj a linked List
 					for(int j=0; JAdj != null && i < JAdj.size(); j++)
@@ -320,18 +322,17 @@ public class Controller {
 		{
 
 			writer = new JsonWriter(new FileWriter("./data/WashingtonGraph.json"));
-			writer.beginObject();
+			//writer.beginObject();
 			//
 			// VERTICES
 			//
-			writer.name("VERTICES");
 			writer.beginArray();
-
+			//writer.name("VERTICES");
 			Iterator<Vertice>  itVertices = grafo.iteratorVertices();
 
 			while(itVertices.hasNext())
 			{
-				System.out.println("Entra While");
+				
 				Vertice v=itVertices.next();
 				VOIntersections actual= (VOIntersections)v.getInfo();
 				writer.beginObject();
@@ -369,7 +370,7 @@ public class Controller {
 				writer.endObject();				
 			}
 			writer.endArray();
-			writer.endObject();
+			//writer.endObject();
 
 
 			writer.close();
