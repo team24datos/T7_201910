@@ -81,10 +81,13 @@ public class Controller {
 			case 0:
 				grafo = contador.load(args);
 				System.out.println();
-				System.out.println("Ya se carg� el grafo desde xlm");
+				System.out.println("Ya se cargó el grafo con la información del archivo .XML:");
+				System.out.println("-------------- Información del grafo: ------------ ");
 				System.out.println("numero de nodos: " + grafo.V() + ", numero de arcos: " + grafo.E());
 				try {
-					
+					System.out.println();
+					System.out.println("Lectura de documento con las infracciones de los archivos. CSV:");
+					System.out.println("--------------Información de la carga:---------------");
 					cargarInfracciones();
 				}
 				catch(Exception e) {
@@ -125,6 +128,7 @@ public class Controller {
 	public void cargarInfracciones() throws Exception {
 		// Mete a un arreglo los meses para después poder leer los archivos en un ciclo.
 		// Se declaran parte inicial y final de la ruta que tienen todos en común. 
+		int cantidadDeInfracciones = 0; 
 		String meses[] = new String[12];
 		String rutai = "data/";
 		String rutaf = "_wgs84.csv";
@@ -144,11 +148,10 @@ public class Controller {
 		for(int i = 1; i < 12; i++) {
 			// Intenta crear un archivo con la ruta creada a partir del mes
 			// Llama al método que carga el archivo y los convierte a objetos de tipo VOMovingViolations
-			System.out.println(rutai + meses[i] + rutaf);
 			try {
 				File f = new File(rutai + meses[i] + rutaf);
-				System.out.println("Se va a cargar el mes de " + meses[i]);
-				leerInfraccionesdeArchivo(f);
+				System.out.println("Se va a cargar el mes de " + meses[i] + " y se han cargado hasta el momento " + cantidadDeInfracciones + " datos. ");
+				cantidadDeInfracciones += leerInfraccionesdeArchivo(f);
 			}
 			// Si no funciona lanza excepción. 
 			catch(Exception e) {
@@ -162,15 +165,15 @@ public class Controller {
 	 * @param pArchivo
 	 * @throws Exception
 	 */
-	public void leerInfraccionesdeArchivo(File pArchivo) throws Exception {
+	public int leerInfraccionesdeArchivo(File pArchivo) throws Exception {
 		// Crea un lector que lee la información del archivo dada por parámetro. 
+		// También se crea un contador que después se retorna para ver cuántas infracciones se han cargado. 
 		FileReader lector = new FileReader(pArchivo);
 		BufferedReader br = new BufferedReader(lector);
 		int contador = 0;
 		br.readLine();
 		String linea = br.readLine();
 		// Va leyendo líneas hasta que llega al final del archivo. 
-		System.out.println("Comienzo de lectura de un archivo ahí...");
 		while(linea != null) {
 			// Separa los valores por ";" y lee la longitud y latitud de infracción
 			contador ++; 
@@ -179,7 +182,7 @@ public class Controller {
 			double longitud = Double.parseDouble(arreglo[19].replaceAll(",", "."));
 			linea = br.readLine();
 		}
-		System.out.println("Al final se cargaron " + contador + " infracciones");
+		return contador;
 	}
 	
 	
