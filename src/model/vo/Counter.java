@@ -20,6 +20,8 @@ package model.vo;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import javax.swing.plaf.synth.SynthSeparatorUI;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.Parser;
 import org.xml.sax.SAXException;
@@ -207,44 +209,12 @@ public class Counter
                              int repetition) {
 
         // filename.xml: 631 ms (4 elems, 0 attrs, 78 spaces, 0 chars)
-        out.print(uri);
-        out.print(": ");
-        if (repetition == 1) {
-            out.print(time);
-        }
-        else {
-            out.print(time);
-            out.print('/');
-            out.print(repetition);
-            out.print('=');
-            out.print(time/repetition);
-        }
-        out.print(" ms");
-        if (memory != Long.MIN_VALUE) {
-            out.print(", ");
-            out.print(memory);
-            out.print(" bytes");
-        }
-        out.print(" (");
-        out.print(fElements);
-        out.print(" elems, ");
-        out.print(fAttributes);
-        out.print(" attrs, ");
-        out.print(fIgnorableWhitespace);
-        out.print(" spaces, ");
-        out.print(fCharacters);
-        out.print(" chars)");
-        if (tagginess) {
-            out.print(' ');
-            long totalCharacters = fTagCharacters + fOtherCharacters
-                                 + fCharacters + fIgnorableWhitespace;
-            long tagValue = fTagCharacters * 100 / totalCharacters;
-            out.print(tagValue);
-            out.print("% tagginess");
-        }
         
+        System.out.println();
+        System.out.println("Información sobre el grafo: ");
         System.out.println("La cantidad de vertices = " + grafo.V() + ", La cantidad de arcos = " + grafo.E() + " debería ser igual a: " + generadorCodigosArcos );
-        
+        System.out.println();
+    	
         out.println();
         out.flush();
 

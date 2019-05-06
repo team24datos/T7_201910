@@ -76,6 +76,7 @@ public class Controller {
 				
 				Counter contador = new Counter();
 				grafo = contador.load(args);
+				System.out.println();
 				System.out.println("Ya se carg� el grafo desde xlm");
 				break;
 
