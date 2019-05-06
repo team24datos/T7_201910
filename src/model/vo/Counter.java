@@ -407,7 +407,7 @@ public class Counter
     //
 
     /** Main program entry point. */
-    public static void load(String argv[]) {
+    public  Grafo<Long, VOIntersections, VOWay> load(String argv[]) {
 
         // is there anything to do?
         if (argv.length == 0) {
@@ -698,6 +698,8 @@ public class Counter
 
             }
         }
+        
+        return grafo;
 
     } // main(String[])
 

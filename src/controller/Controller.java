@@ -63,7 +63,8 @@ public class Controller {
 		Scanner sc = new Scanner(System.in);
 		boolean fin=false;
 		Controller controller = new Controller();
-		Counter.load(args);
+		Counter contador = new Counter();
+		grafo = contador.load(args);
 
 		while(!fin)
 		{
@@ -76,7 +77,7 @@ public class Controller {
 			switch(option)
 			{
 			case 0:
-				System.out.println("Ya se cargó el grafo desde xlm");
+				System.out.println("Ya se cargï¿½ el grafo desde xlm");
 				break;
 
 			case 1:
