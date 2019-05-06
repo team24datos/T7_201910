@@ -68,6 +68,7 @@ public class Controller {
 	public void run(String args[]) {
 		Scanner sc = new Scanner(System.in);
 		boolean fin=false;
+		Counter contador = new Counter();
 		// Mantiene el programa corriendo hasta que el usuario decida temrinarlo. 
 		while(!fin) {
 			view.printMenu();
@@ -78,7 +79,7 @@ public class Controller {
 			{
 			case 0:
 
-				Counter contador = new Counter();
+				//Counter contador = new Counter();
 				grafo = contador.load(args);
 				System.out.println();
 				System.out.println("Ya se carg� el grafo desde xlm");

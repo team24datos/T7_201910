@@ -171,7 +171,7 @@ public class Counter
     protected long fOtherCharacters;
     
     /** Grafo donde se mete la información del documento xml" */
-    private Grafo<Long, VOIntersections, VOWay> grafo;
+    private static Grafo<Long, VOIntersections, VOWay> grafo;
     
     /** Arreglo dinámico donde se ponen todos los nodos que leen después de way. */
     private ArrayList<Long> arregloNodos;
@@ -253,6 +253,7 @@ public class Counter
         	// Crea el nuevo nodo y lo agrega directamente al grafo. 
         	VOIntersections nuevoNodo = new VOIntersections(idNodo, lat, lon);
         	grafo.addVertex(idNodo, nuevoNodo);
+        	//System.out.println("Leyo Nodo: "+ idNodo);
         }
         // Si el raw es un way entra a este condicional
         else if(raw.equalsIgnoreCase("way")) {
@@ -668,6 +669,8 @@ public class Counter
 
             }
         }
+        
+        System.out.println("Cantidad V: "+grafo.V()+" Cantidad E: "+grafo.E());
         
         return grafo;
 
