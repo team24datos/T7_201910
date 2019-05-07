@@ -108,7 +108,7 @@ public class Controller {
 				String rutaCenter= "./data//CenterWashingtonGraph.json";
 				String rutaWashington= "./data//WashingtonGraph.json";
 				controller.loadGraphFromJson(rutaCenter);
-				
+
 				//controller.loadWaysJson(rutaWay);
 				break;
 
@@ -274,8 +274,8 @@ public class Controller {
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	
+
+
 	private void toJson()
 	{
 		JsonWriter writer;
@@ -296,20 +296,20 @@ public class Controller {
 			{
 				Vertice v=itVertices.next();
 				VOIntersections actual= (VOIntersections)v.getInfo();
-				
+
 				//No se guarda si no tiene adyacentes
 				if(v.getArcos().getSize()==0)
 				{
 					continue;
 				}
-				
+
 				else
 				{
 					writer.beginObject();
 					writer.name("ID").value(actual.getId());
 					writer.name("LAT").value(actual.getLat());
 					writer.name("LON").value(actual.getLon());
-					
+
 					//
 					//Se escriben los adyacentes
 					//
@@ -322,7 +322,7 @@ public class Controller {
 					while(actAdj!=null && actElement!=null)
 					{
 						writer.beginObject();
-						
+
 						writer.name("ID_ARC").value(actElement.getId());
 						writer.name("NODO1").value(actElement.getNodo1());
 						writer.name("NODO2").value(actElement.getNodo2());
@@ -356,6 +356,27 @@ public class Controller {
 		}
 	}
 
+	private static final int EARTH_RADIUS = 6371; // Approx Earth radius in KM
+
+	public static double distance(double startLat, double startLong, double endLat, double endLong)
+	{
+
+		double dLat  = Math.toRadians((endLat - startLat));
+		double dLong = Math.toRadians((endLong - startLong));
+
+		startLat = Math.toRadians(startLat);
+		endLat   = Math.toRadians(endLat);
+
+		double a = haversin(dLat) + Math.cos(startLat) * Math.cos(endLat) * haversin(dLong);
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+		return EARTH_RADIUS * c; // <-- d
+	}
+
+	public static double haversin(double val) {
+		return Math.pow(Math.sin(val / 2), 2);
+	}
+
 	public void loadWaysJson(String ruta) 
 	{
 		int numCargados=0;
@@ -379,7 +400,7 @@ public class Controller {
 		}
 	}
 
-	
+
 	private void toJson1()
 	{
 		Iterator<VOIntersections>  itVertices=grafo.iteratorVertices();
