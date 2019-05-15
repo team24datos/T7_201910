@@ -33,11 +33,11 @@ public class Grafo <K extends Comparable<K>, V, A extends Comparable<A>> impleme
 	// -----------------------------------------------------------------
 	// M�todos
 	// -----------------------------------------------------------------
-	
-//	public Vertice buscarVerticeMasCercano(double pLatitud, double pLongitud) {
-//		
-//	}
-	
+
+	//	public Vertice buscarVerticeMasCercano(double pLatitud, double pLongitud) {
+	//		
+	//	}
+
 	public int V() 
 	{
 		return cantVertices;
@@ -61,26 +61,30 @@ public class Grafo <K extends Comparable<K>, V, A extends Comparable<A>> impleme
 		vertices.put(idVertex, nuevoVertice);
 		cantVertices++;
 		NodeList<Arco> actAdj=  adj.getFirstNode();
-		
+
 		while(actAdj!=null && actAdj.getelem() != null)
 		{
 			arcos.add(actAdj.getelem());
 			actAdj=actAdj.getNext();
 			cantEnlaces++;
 		}
-		
+
 	}
 
-	
+
 	public void addEdge(K idVertexInit, K idVertexFin, A infoArc) 
 	{
 		Vertice verticeInicio = getVertice(idVertexInit);
 		Vertice verticeFin = getVertice(idVertexFin);
 		Arco nuevoArco = new Arco(infoArc, verticeInicio, verticeFin);
-		verticeInicio.getArcos().add(nuevoArco);
-		verticeFin.getArcos().add(new Arco(infoArc, verticeFin, verticeInicio));
-		arcos.add(nuevoArco);
-		cantEnlaces++;
+		if(verticeInicio.getArco(infoArc)==null)
+		{
+			verticeInicio.getArcos().add(nuevoArco);
+			//verticeFin.getArcos().add(new Arco(infoArc, verticeFin, verticeInicio));
+			//arcos.addNotRepeated(nuevoArco);
+			arcos.add(nuevoArco);
+			cantEnlaces++;
+		}
 	}
 
 	public void addEdgeSecondForm(K idVertexInit, K idVertexFin, A infoArc) 
@@ -110,7 +114,7 @@ public class Grafo <K extends Comparable<K>, V, A extends Comparable<A>> impleme
 		buscado.setInfoVertex(idVertex, infoVertex);
 	}
 
-	
+
 	public A getInfoArc(K idVertexIni, K idVertexFin) 
 	{
 		A rta = null;
@@ -122,7 +126,7 @@ public class Grafo <K extends Comparable<K>, V, A extends Comparable<A>> impleme
 		return rta;
 	}
 
-	
+
 	public void setInfoArc(K idVertexIni, K idVertexFin, A infoArc) 
 	{
 		Arco buscado = getArco(idVertexIni, idVertexFin);
@@ -215,7 +219,7 @@ public class Grafo <K extends Comparable<K>, V, A extends Comparable<A>> impleme
 			arcos = new LinkedList<Arco>();
 			marcado = false;
 		}
-		
+
 		public Vertice(K pKey, V pInfo, LinkedList<Arco> pAdj )
 		{
 			key = pKey;
@@ -239,6 +243,29 @@ public class Grafo <K extends Comparable<K>, V, A extends Comparable<A>> impleme
 			return arcos;
 		}
 
+		public Arco getArco(A a)
+		{
+
+			if(arcos==null||arcos.getSize()==0)
+			{
+				return null;
+			}
+			else
+			{
+				NodeList actual= arcos.getFirstNode();
+				while(actual!=null)
+				{
+					Arco actArco=(Arco)actual.getelem();
+					if(actArco.getInfoArco().equals(a))
+					{
+						Arco resp=actArco;
+						return resp;
+					}
+					actual=actual.getNext();
+				}
+			}
+			return null;
+		}
 		public void setInfoVertex(K pKey, V pInfo)
 		{
 			key = pKey;

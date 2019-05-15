@@ -62,7 +62,7 @@ public class Controller {
 	}
 
 	// Métodos -----------------------------------------------------------------------------
-	
+
 	/**
 	 * Corre el programa con los argumentos que le entraron por parámetro al main
 	 * @param args
@@ -104,9 +104,10 @@ public class Controller {
 
 			case 2:
 				System.out.println("Carga del grafo desde un Json");
-				String rutaInt= "./data//WashingtonGraph.json";
-				String rutaWay= "./data/";
-				controller.loadIntersectionsJson(rutaInt);
+				String rutaCenter= "./data//CenterWashingtonGraph.json";
+				String rutaWashington= "./data//WashingtonGraph.json";
+				controller.loadGraphFromJson(rutaCenter);
+
 				//controller.loadWaysJson(rutaWay);
 				break;
 
@@ -197,9 +198,9 @@ public class Controller {
 		}
 		return contador;
 	}
-	
-	
-	public void loadIntersectionsJson(String ruta) 
+
+
+	public void loadGraphFromJson(String ruta) 
 	{
 		int numCargados=0;
 		JsonParser parser = new JsonParser();
@@ -207,8 +208,10 @@ public class Controller {
 		{
 			Reader reader = Files.newBufferedReader(Paths.get(ruta));
 			JsonArray arreglo = (JsonArray)parser.parse(new FileReader(ruta));
+
 			for(int i=0; arreglo != null && i < arreglo.size(); i++)
 			{
+				//System.out.println("Entra for");
 				JsonObject objeto = (JsonObject)arreglo.get(i);
 				//------------------------------------
 				//------ Lectura de atributos de la interseccion
@@ -235,39 +238,43 @@ public class Controller {
 					//System.out.print("c");
 				}
 				VOIntersections nuevaInter= new VOIntersections(ID, LAT, LON);
-				JsonArray JAdj= objeto.get("ADJ").getAsJsonArray();
 				LinkedList<VOWay>adj=new LinkedList<VOWay>();
-				//Pasar Adj a linked List
-				for(int j=0; JAdj != null && i < JAdj.size(); j++)
+				boolean cargoArreglo=objeto.get("ADJ").isJsonArray();
+				//System.out.println(cargoArreglo);
+				if(cargoArreglo)
 				{
-					JsonObject objetoAdj = (JsonObject)arreglo.get(j);
-					int IDAdj=0;
-					JsonElement elementoIDAdj = objetoAdj.get("ID_ARC");
-					if(elementoIDAdj!=null && !elementoIDAdj.isJsonNull())
+					JsonArray JAdj=(JsonArray) objeto.get("ADJ").getAsJsonArray();
+
+					//Pasar Adj a linked List
+					for(int j=0; JAdj != null && i < JAdj.size(); j++)
 					{
-						IDAdj=elementoIDAdj.getAsInt();
-						//System.out.print("a");
+						JsonObject objetoAdj = (JsonObject)arreglo.get(j);
+						int IDAdj=0;
+						JsonElement elementoIDAdj = objetoAdj.get("ID_ARC");
+						if(elementoIDAdj!=null && !elementoIDAdj.isJsonNull())
+						{
+							IDAdj=elementoIDAdj.getAsInt();
+							//System.out.print("a");
+						}
+						Long NODO1=(long) 0.0;
+						JsonElement elementoNODO1 = objeto.get("NODO1");
+						if(elementoNODO1!=null && !elementoNODO1.isJsonNull())
+						{
+							NODO1=elementoNODO1.getAsLong();
+							//System.out.print("b");
+						}
+						Long NODO2=(long) 0.0;
+						JsonElement elementoNODO2 = objeto.get("NODO2");
+						if(elementoNODO2!=null && !elementoNODO2.isJsonNull())
+						{
+							NODO2=elementoNODO2.getAsLong();
+							//System.out.print("c");
+						}
+						// se crea un nuevo VOWay
+						VOWay nuevoVOWay = new VOWay(IDAdj,NODO1,NODO2);
+						adj.add(nuevoVOWay);
 					}
-					Long NODO1=(long) 0.0;
-					JsonElement elementoNODO1 = objeto.get("NODO1");
-					if(elementoNODO1!=null && !elementoNODO1.isJsonNull())
-					{
-						NODO1=elementoNODO1.getAsLong();
-						//System.out.print("b");
-					}
-					Long NODO2=(long) 0.0;
-					JsonElement elementoNODO2 = objeto.get("NODO2");
-					if(elementoNODO2!=null && !elementoNODO2.isJsonNull())
-					{
-						NODO2=elementoNODO2.getAsLong();
-						//System.out.print("c");
-					}
-					// se crea un nuevo VOWay
-					VOWay nuevoVOWay = new VOWay(IDAdj,NODO1,NODO2);
-					adj.add(nuevoVOWay);
 				}
-
-
 
 				//Agregar vertice al grafo
 				grafoJson.addVertexSecondForm(nuevaInter.getId(), nuevaInter, adj);
@@ -280,6 +287,109 @@ public class Controller {
 			System.out.println(e.getMessage());
 		}
 	}
+
+
+	private void toJson()
+	{
+		JsonWriter writer;
+		System.out.println("Cantidad V: "+grafo.V()+" Cantidad E: "+grafo.E());
+		try
+		{
+
+			writer = new JsonWriter(new FileWriter("./data/WashingtonGraph.json"));
+			//writer.beginObject();
+			//
+			// VERTICES
+			//
+			writer.beginArray();
+			//writer.name("VERTICES");
+			Iterator<Vertice>  itVertices = grafo.iteratorVertices();
+
+			while(itVertices.hasNext())
+			{
+				Vertice v=itVertices.next();
+				VOIntersections actual= (VOIntersections)v.getInfo();
+
+				//No se guarda si no tiene adyacentes
+				if(v.getArcos().getSize()==0)
+				{
+					continue;
+				}
+
+				else
+				{
+					writer.beginObject();
+					writer.name("ID").value(actual.getId());
+					writer.name("LAT").value(actual.getLat());
+					writer.name("LON").value(actual.getLon());
+
+					//
+					//Se escriben los adyacentes
+					//
+					writer.name("ADJ");
+					writer.beginArray();
+
+					LinkedList adj = v.getArcos();
+					NodeList<Arco> actAdj=  adj.getFirstNode();
+					VOWay actElement=(VOWay) actAdj.getelem().getInfoArco();
+					while(actAdj!=null && actElement!=null)
+					{
+						writer.beginObject();
+
+						writer.name("ID_ARC").value(actElement.getId());
+						writer.name("NODO1").value(actElement.getNodo1());
+						writer.name("NODO2").value(actElement.getNodo2());
+
+						writer.endObject();	
+						actAdj=actAdj.getNext();
+					}
+				}
+				writer.endArray();
+				writer.endObject();				
+			}
+			writer.endArray();
+			//writer.endObject();
+
+
+			writer.close();
+			System.out.println("Archivo Json guardado correctamente");
+			//
+			// ARCOS (Opci�n 2 guardarlos por aparte)
+			//
+			//writer.name("Arcos");
+			//writer.beginArray();
+			//grafo.iteratorArcos();
+
+			//TODO
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			System.out.println("Fallo porque: "+e.getMessage());
+		}
+	}
+
+	private static final int EARTH_RADIUS = 6371; // Approx Earth radius in KM
+
+	public static double distance(double startLat, double startLong, double endLat, double endLong)
+	{
+
+		double dLat  = Math.toRadians((endLat - startLat));
+		double dLong = Math.toRadians((endLong - startLong));
+
+		startLat = Math.toRadians(startLat);
+		endLat   = Math.toRadians(endLat);
+
+		double a = haversin(dLat) + Math.cos(startLat) * Math.cos(endLat) * haversin(dLong);
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+		return EARTH_RADIUS * c; // <-- d
+	}
+
+	public static double haversin(double val) {
+		return Math.pow(Math.sin(val / 2), 2);
+	}
+
 	public void loadWaysJson(String ruta) 
 	{
 		int numCargados=0;
@@ -303,6 +413,7 @@ public class Controller {
 		}
 	}
 
+
 	private void toJson1()
 	{
 		Iterator<VOIntersections>  itVertices=grafo.iteratorVertices();
@@ -318,83 +429,4 @@ public class Controller {
 
 
 	}
-
-	private void toJson()
-	{
-		JsonWriter writer;
-		System.out.println("Cantidad V: "+grafo.V()+" Cantidad E: "+grafo.E());
-		try
-		{
-
-			writer = new JsonWriter(new FileWriter("./data/WashingtonGraph.json"));
-			writer.beginObject();
-			//
-			// VERTICES
-			//
-			writer.name("VERTICES");
-			writer.beginArray();
-
-			Iterator<Vertice>  itVertices = grafo.iteratorVertices();
-
-			while(itVertices.hasNext())
-			{
-				System.out.println("Entra While");
-				Vertice v=itVertices.next();
-				VOIntersections actual= (VOIntersections)v.getInfo();
-				writer.beginObject();
-				writer.name("ID").value(actual.getId());
-				writer.name("LAT").value(actual.getLat());
-				writer.name("LON").value(actual.getLon());
-				//
-				//Se escriben los adyacentes
-				//
-				writer.name("ADJ");
-				writer.beginArray();
-				if(v.getArcos().getSize()==0)
-				{
-
-				}
-				else
-
-				{
-					LinkedList adj = v.getArcos();
-					NodeList<Arco> actAdj=  adj.getFirstNode();
-					VOWay actElement=(VOWay) actAdj.getelem().getInfoArco();
-					while(actAdj!=null && actElement!=null)
-					{
-
-						writer.beginObject();
-						writer.name("ID_ARC").value(actElement.getId());
-						writer.name("NODO1").value(actElement.getNodo1());
-						writer.name("NODO2").value(actElement.getNodo2());
-
-						writer.endObject();	
-						actAdj=actAdj.getNext();
-					}
-				}
-				writer.endArray();
-				writer.endObject();				
-			}
-			writer.endArray();
-			writer.endObject();
-
-
-			writer.close();
-			System.out.println("Archivo Json guardado correctamente");
-			//
-			// ARCOS (Opci�n 2 guardarlos por aparte)
-			//
-			//writer.name("Arcos");
-			//writer.beginArray();
-			//grafo.iteratorArcos();
-
-			//TODO
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			System.out.println("Fallo porque: "+e.getMessage());
-		}
-	}
-
 }

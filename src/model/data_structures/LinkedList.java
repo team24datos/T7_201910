@@ -6,32 +6,32 @@ import java.util.NoSuchElementException;
 
 public class LinkedList<T extends Comparable<T>> implements Serializable {
 	// -----------------------------------------------------------------
-    // Atributos
-    // -----------------------------------------------------------------
-	
-	/**
-     * Primer nodo.
-     */
-	private NodeList<T> first;
-	
-	/**
-     * ultimo nodo.
-     */
-	private NodeList<T> last;
-	
-	/**
-     * Primer nodo.
-     */
-	private int size;
-	
-	/**
-     * Primer nodo.
-     */
-	private NodeList<T> current;
-	
+	// Atributos
 	// -----------------------------------------------------------------
-    // Constructor
-    // -----------------------------------------------------------------
+
+	/**
+	 * Primer nodo.
+	 */
+	private NodeList<T> first;
+
+	/**
+	 * ultimo nodo.
+	 */
+	private NodeList<T> last;
+
+	/**
+	 * Primer nodo.
+	 */
+	private int size;
+
+	/**
+	 * Primer nodo.
+	 */
+	private NodeList<T> current;
+
+	// -----------------------------------------------------------------
+	// Constructor
+	// -----------------------------------------------------------------
 
 	public LinkedList()
 	{
@@ -42,135 +42,135 @@ public class LinkedList<T extends Comparable<T>> implements Serializable {
 	}
 
 	// -----------------------------------------------------------------
-    // M�todos
-    // -----------------------------------------------------------------
-	
+	// M�todos
+	// -----------------------------------------------------------------
+
 	public NodeList getFirstNode()
 	{
 		return first;
 	}
-	
+
 	/**
-     * Devuelve el siguiente elemento en la lista
-     * @return elemento T siguiente
-     */
-	
+	 * Devuelve el siguiente elemento en la lista
+	 * @return elemento T siguiente
+	 */
+
 	public T next() {
-		
+
 		current = current.getNext();
 		return  current.getelem();
-		
+
 	}
 
 	/**
-     * Devuelve el anteior elemento de la lista 
-     * @return elemento T anteior
-     */
-	
+	 * Devuelve el anteior elemento de la lista 
+	 * @return elemento T anteior
+	 */
+
 	public T previus() {
-		
+
 		current = current.getPrevius();
 		return  current.getelem();
 	}
 
 	/**
-     * Devuelve el tamaño de la lista
-     * @return tamaño de la lista 
-     */
+	 * Devuelve el tamaño de la lista
+	 * @return tamaño de la lista 
+	 */
 	public int getSize() {
-		
+
 		return size;
 	}
 
 	/**
-     * Devuelve el elemento actual de la lista
-     * @return elemento T actual
-     */
-	
+	 * Devuelve el elemento actual de la lista
+	 * @return elemento T actual
+	 */
+
 	public T getCurrent() {
-		
+
 		return current.getelem();
 	}
 
-	
+
 	public boolean isEmpty() {
 		return size == 0 ? true: false;
 	}
 
 	/**
-     * Indica si un elemento esta repetido
-     * correquisito para a�adir elementos 
-     * @param T elemento
-     * @return true si se logro encontrar un elemento T igual a alguno en la lista
-     */
+	 * Indica si un elemento esta repetido
+	 * correquisito para a�adir elementos 
+	 * @param T elemento
+	 * @return true si se logro encontrar un elemento T igual a alguno en la lista
+	 */
 
 	public boolean repeated(T dato) {
-    NodeList<T> nodos = first;
-		
-		while(nodos.hasNext())
+		NodeList<T> nodos = first;
+
+		while(nodos!=null &&nodos.hasNext())
 		{
 			if(  dato.compareTo(nodos.getelem()) == 0 ) 
-					{
+			{
 				return true;
-					}
+			}
 			nodos = nodos.getNext();
 		}
 		return false;
 	}
 
-	
-	
+
+
 	/**
-     * Elimina un elemento de la lista dado por parametro
-     * @param T elem
-     * @return true si se logro eliminar el elemento T
-     */
-	
+	 * Elimina un elemento de la lista dado por parametro
+	 * @param T elem
+	 * @return true si se logro eliminar el elemento T
+	 */
+
 	public boolean delete(T elem) {
 		boolean resp = false;
-		
+
 		NodeList<T> pro = first;
-		
+
 		if( pro.getelem().equals(elem))
 		{
 			first = pro.getNext();
 			size--;
 			resp = true;
 		}
-		
+
 		while( pro.hasNext())
 		{
 			if( pro.getelem().equals(elem))
-           {
-			NodeList<T> temp = pro.getNext();
-			pro.getPrevius().setNext(temp);
-			
-			size--;
-			resp =  true;
-         }
-			
+			{
+				NodeList<T> temp = pro.getNext();
+				pro.getPrevius().setNext(temp);
+
+				size--;
+				resp =  true;
+			}
+
 			pro = pro.getNext();
 		}
-		
-			
-			   return resp;
-			}
-			
-			
+
+
+		return resp;
+	}
+
+
 
 	/**
-     * Añade un elemento a la lista de primeras, si no existe primero,
-     * este se convierte en el primero
-     * @param T elem a agregar
-     * @return true si se logro agregar el elemento T
-     */
+	 * Añade un elemento a la lista de primeras, si no existe primero,
+	 * este se convierte en el primero
+	 * @param T elem a agregar
+	 * @return true si se logro agregar el elemento T
+	 */
 
 	public boolean add(T elem) {
-	
+
 		NodeList<T> temp = new NodeList<T>(elem, null, null);
 		boolean resp = false;
-		
-		
+
+
 		if( first == null)
 		{
 			first = temp;
@@ -179,33 +179,54 @@ public class LinkedList<T extends Comparable<T>> implements Serializable {
 		}
 		else
 		{
-			
-
 			first.setPrevius(temp);
 			temp.setNext(first);
 			first = temp;
 			resp = true;
 			size++;
 		}
-		
+
 		return resp;
 	}
 
+	public boolean addNotRepeated(T elem) {
+
+		NodeList<T> temp = new NodeList<T>(elem, null, null);
+		boolean resp = false;
+		if(!repeated(elem))
+		{
+			if( first == null)
+			{
+				first = temp;
+				last = temp;
+				size++;
+			}
+			else
+			{
+				first.setPrevius(temp);
+				temp.setNext(first);
+				first = temp;
+				resp = true;
+				size++;
+			}
+		}
+		return resp;
+	}
 	/**
-     * Añade un elemento a la lista de primeras, si no existe primero,
-     * este se convierte en el primero
-     * @param T elem a agregar
-     * @return true si se logro agregar el elemento T
-     */
-	
+	 * Añade un elemento a la lista de primeras, si no existe primero,
+	 * este se convierte en el primero
+	 * @param T elem a agregar
+	 * @return true si se logro agregar el elemento T
+	 */
+
 	public boolean addAtEnd(T elem) {
-		
+
 		NodeList<T> pro = first;
 		NodeList<T> aux = new NodeList<T>(elem, null, null);
-		
+
 		for ( int i = 0; i <=  size ; i++)
 		{
-			
+
 			if( !pro.hasNext())
 			{
 				pro.setNext(aux);
@@ -214,29 +235,29 @@ public class LinkedList<T extends Comparable<T>> implements Serializable {
 				size++;
 				return true;
 			}
-			
-				
-			
+
+
+
 			pro = pro.getNext();
 		}
 		return false;
-			
-		
-        
+
+
+
 	}
 
 	/**
-     * Añade un elemento a la lista de primeras, si no existe primero,
-     * este se convierte en el primero
-     * @param T elem a agregar
-     * @return true si se logro agregar el elemento T
-     */
-	
+	 * Añade un elemento a la lista de primeras, si no existe primero,
+	 * este se convierte en el primero
+	 * @param T elem a agregar
+	 * @return true si se logro agregar el elemento T
+	 */
+
 	public boolean addAtK(T elem, int nii) {
-		
+
 		NodeList<T> pro = first;
 		NodeList<T> aux = new NodeList<T>(elem, null, null); 
-		
+
 		for( int i = 0; i <= size; i++)
 		{
 			if( i == nii)
@@ -251,11 +272,11 @@ public class LinkedList<T extends Comparable<T>> implements Serializable {
 			}
 			pro = pro.getNext();
 		}
-		
-	return false;
-		
+
+		return false;
+
 	}
-	
+
 	public T addInorder(T elemp)
 	{
 		NodeList<T> aux = new NodeList<T>();
@@ -351,19 +372,19 @@ public class LinkedList<T extends Comparable<T>> implements Serializable {
 	}
 
 	/**
-     * Obtiene el elemento buscado
-     * @param pPosicion 
-     * @return el elemento en la posicion T 
-     */
+	 * Obtiene el elemento buscado
+	 * @param pPosicion 
+	 * @return el elemento en la posicion T 
+	 */
 	public T get(int pPosicion) {
-		
+
 		if (pPosicion < 0)
 		{
 			return null;
 		}
-		
+
 		NodeList<T> pro = first;
-		
+
 		if (pro != null) 
 		{
 			for (int i=0;i< pPosicion ;i++)
@@ -379,19 +400,19 @@ public class LinkedList<T extends Comparable<T>> implements Serializable {
 		return null;
 	}
 
-	
+
 	/**
-     * Obtiene el elemento buscado
-     * @param pPosicion 
-     * @return el elemento en la posicion T 
-     */
+	 * Obtiene el elemento buscado
+	 * @param pPosicion 
+	 * @return el elemento en la posicion T 
+	 */
 	public T getObject(T buscado) {
-		
+
 		if (buscado == null)
 		{
 			return null;
 		}
-		
+
 		NodeList<T> pro = first;
 		boolean encontro =false;
 		if (pro != null) 
@@ -414,15 +435,15 @@ public class LinkedList<T extends Comparable<T>> implements Serializable {
 		return null;
 	}
 	/**
-     * elimina un elemento en la poscion T
-     * @param T elemento , il posicion
-     * @return el elemento en la posicion T 
-     */
-	
+	 * elimina un elemento en la poscion T
+	 * @param T elemento , il posicion
+	 * @return el elemento en la posicion T 
+	 */
+
 	public boolean deleteAtK( int iL) {
-		
+
 		NodeList<T> pro = first;
-		
+
 		for( int i = 0; i <= size; i++)
 		{
 			if( i == iL)
@@ -431,7 +452,7 @@ public class LinkedList<T extends Comparable<T>> implements Serializable {
 				{
 					NodeList<T> temp = pro.getNext();
 					pro.getPrevius().setNext(temp);
-					
+
 					size--;
 					return true;
 				}
@@ -444,41 +465,41 @@ public class LinkedList<T extends Comparable<T>> implements Serializable {
 			}
 			pro = pro.getNext();
 		}
-	
-	return false;
 
-       
+		return false;
+
+
 	}
-	
-	
+
+
 	/**
-     * Clase iteradora
-     */
-	
+	 * Clase iteradora
+	 */
+
 	public Iterator<T> iterator() {
 		Iterator<T> iterator = new IteratorLinkedList();
 		return iterator;
 	}
-	
-	
-		
-	
-	
+
+
+
+
+
 	public class IteratorLinkedList implements Iterator<T>
 	{
 		private NodeList<T> proximo = first;
 
 		@Override
 		public boolean hasNext() {
-			
+
 			return proximo != null?true:false;
-			
-			
+
+
 		}
 
 		@Override
 		public T next() {
-			
+
 			if( proximo == null)
 			{
 				throw new NoSuchElementException("no hay proximo");
@@ -493,7 +514,7 @@ public class LinkedList<T extends Comparable<T>> implements Serializable {
 
 
 
-	
-	
+
+
 
 }
