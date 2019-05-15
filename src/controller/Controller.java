@@ -83,7 +83,7 @@ public class Controller {
 				System.out.println();
 				System.out.println("Carga del grafo con la información del archivo .XML:");
 				System.out.println("Información del grafo:");
-				System.out.println("numero de nodos: " + grafo.V() + ", numero de arcos: " + grafo.E());
+				System.out.println("Número de nodos: " + grafo.V() + ", Número de arcos: " + grafo.E());
 				try {
 					System.out.println("Lectura de documento con las infracciones de los archivos. CSV:");
 					System.out.println("Información de la carga:");
