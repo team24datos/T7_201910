@@ -81,19 +81,18 @@ public class Controller {
 			case 0:
 				grafo = contador.load(args);
 				System.out.println();
-				System.out.println("Ya se cargó el grafo con la información del archivo .XML:");
-				System.out.println("-------------- Información del grafo: ------------ ");
+				System.out.println("Carga del grafo con la información del archivo .XML:");
+				System.out.println("Información del grafo:");
 				System.out.println("numero de nodos: " + grafo.V() + ", numero de arcos: " + grafo.E());
 				try {
-					System.out.println();
 					System.out.println("Lectura de documento con las infracciones de los archivos. CSV:");
-					System.out.println("--------------Información de la carga:---------------");
+					System.out.println("Información de la carga:");
 					cargarInfracciones();
+					System.out.println();
 				}
 				catch(Exception e) {
 					System.out.println(e.getMessage());
 				}
-				System.out.println("Ya se cargaron las infracciones desde csv");
 				break;
 
 			case 1:
@@ -145,12 +144,11 @@ public class Controller {
 		meses[10] = "November";
 		meses[11] = "December";
 		// Recorrido que va procesando los archivos por mes.
-		for(int i = 1; i < 12; i++) {
+		for(int i = 0; i < 12; i++) {
 			// Intenta crear un archivo con la ruta creada a partir del mes
 			// Llama al método que carga el archivo y los convierte a objetos de tipo VOMovingViolations
 			try {
 				File f = new File(rutai + meses[i] + rutaf);
-				System.out.println("Se va a cargar el mes de " + meses[i] + " y se han cargado hasta el momento " + cantidadDeInfracciones + " datos. ");
 				cantidadDeInfracciones += leerInfraccionesdeArchivo(f);
 			}
 			// Si no funciona lanza excepción. 
@@ -158,6 +156,8 @@ public class Controller {
 				throw e;
 			}
 		}
+		// Al final se escribe en la consola la cantidad de datos que se leyeron.
+		System.out.println("Se leyeron en total : " +  cantidadDeInfracciones + " infracciones");
 	}
 
 	/**
@@ -170,16 +170,29 @@ public class Controller {
 		// También se crea un contador que después se retorna para ver cuántas infracciones se han cargado. 
 		FileReader lector = new FileReader(pArchivo);
 		BufferedReader br = new BufferedReader(lector);
+		int latcol = 18;
+		int loncol = 19;
 		int contador = 0;
 		br.readLine();
 		String linea = br.readLine();
+		// Para el archivo del mes de enero los valores de latitud y longitud están desplazados a la izquierda.
+		if(pArchivo.getName().toLowerCase().contains("january")) {
+			latcol --;
+			loncol --;
+		}
+		// Para los archivos de octubre, noviembre y diciembre los valores de latitud y longitud están desplazados a la derecha. 
+		if(pArchivo.getName().toLowerCase().contains("october") || pArchivo.getName().toLowerCase().contains("november") 
+				|| pArchivo.getName().toLowerCase().contains("december")) {
+			latcol ++;
+			loncol ++;
+		}
 		// Va leyendo líneas hasta que llega al final del archivo. 
 		while(linea != null) {
 			// Separa los valores por ";" y lee la longitud y latitud de infracción
 			contador ++; 
 			String arreglo[] = linea.split(";");
-			double latitud = Double.parseDouble(arreglo[18].replaceAll(",", "."));
-			double longitud = Double.parseDouble(arreglo[19].replaceAll(",", "."));
+			double latitud = Double.parseDouble(arreglo[latcol].replaceAll(",", "."));
+			double longitud = Double.parseDouble(arreglo[loncol].replaceAll(",", "."));
 			linea = br.readLine();
 		}
 		return contador;
