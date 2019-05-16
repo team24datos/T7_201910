@@ -105,8 +105,8 @@ public class Controller {
 			case 2:
 				System.out.println("Carga del grafo desde un Json");
 				String rutaCenter= "./data//CenterWashingtonGraph.json";
-				String rutaWashington= "./data//WashingtonGraph.json";
-				controller.loadGraphFromJson(rutaCenter);
+				String rutaWashington= "./data//finalGraph.json";
+				controller.loadGraphFromJson(rutaWashington);
 
 				//controller.loadWaysJson(rutaWay);
 				break;
