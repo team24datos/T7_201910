@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.BorderLayout;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -12,11 +13,16 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.Scanner;
+
+import javax.swing.JFrame;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
+
+import Mapa.Mapa;
 import model.data_structures.ArregloDinamico;
 import model.data_structures.BST;
 import model.data_structures.Grafo;
@@ -48,7 +54,7 @@ public class Controller {
 
 	/** Grafo donde se almacena toda la red vial de Washington con arcos de tipo highway */
 	private static Grafo grafo;
-
+	
 	private Grafo grafoJson;
 	// Constructor -------------------------------------------------------------------
 
@@ -68,6 +74,11 @@ public class Controller {
 	 * @param args
 	 */
 	public void run(String args[]) {
+		JFrame frame = new JFrame("Mapa");
+		Mapa map = new Mapa("mapita");
+		frame.add(map,BorderLayout.CENTER);
+		frame.setSize(700, 500);
+		frame.setVisible(true);
 		Scanner sc = new Scanner(System.in);
 		boolean fin=false;
 		Counter contador = new Counter();
@@ -198,7 +209,6 @@ public class Controller {
 		}
 		return contador;
 	}
-
 
 	public void loadGraphFromJson(String ruta) 
 	{
