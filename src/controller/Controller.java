@@ -74,11 +74,7 @@ public class Controller {
 	 * @param args
 	 */
 	public void run(String args[]) {
-		JFrame frame = new JFrame("Mapa");
-		Mapa map = new Mapa("mapita");
-		frame.add(map,BorderLayout.CENTER);
-		frame.setSize(700, 500);
-		frame.setVisible(true);
+		//Mapa map = new Mapa("mapita");
 		Scanner sc = new Scanner(System.in);
 		boolean fin=false;
 		Counter contador = new Counter();
@@ -100,19 +96,17 @@ public class Controller {
 					System.out.println("Información de la carga:");
 					cargarInfracciones();
 					System.out.println();
+					Mapa mapa = new Mapa("Información Washington D.C");
 				}
 				catch(Exception e) {
 					System.out.println(e.getMessage());
 				}
 				break;
-
 			case 1:
 				System.out.println("Antes grafo E: "+grafo.E());
 				//System.out.println(grafo.iteratorVertices().next().toString());
 				controller.toJson();
-
 				break;
-
 			case 2:
 				System.out.println("Carga del grafo desde un Json");
 				String rutaCenter= "./data//CenterWashingtonGraph.json";
