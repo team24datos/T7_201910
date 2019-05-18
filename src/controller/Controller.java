@@ -296,7 +296,9 @@ public class Controller {
 	private void toJson()
 	{
 		JsonWriter writer;
+		int i=0;
 		System.out.println("Cantidad V: "+grafo.V()+" Cantidad E: "+grafo.E());
+		System.out.println("Cantidad V: "+grafo.numVerticesTH());
 		try
 		{
 
@@ -307,13 +309,14 @@ public class Controller {
 			//
 			writer.beginArray();
 			//writer.name("VERTICES");
+			//Algo esta pasando con el iterador de vertices Revisar si hay tiempo
 			Iterator<Vertice>  itVertices = grafo.iteratorVertices();
 
 			while(itVertices.hasNext())
 			{
 				Vertice v=itVertices.next();
 				VOIntersections actual= (VOIntersections)v.getInfo();
-
+				i++;
 				//No se guarda si no tiene adyacentes
 				if(v.getArcos().getSize()==0)
 				{
@@ -332,7 +335,7 @@ public class Controller {
 					//
 					writer.name("ADJ");
 					writer.beginArray();
-
+					
 					LinkedList adj = v.getArcos();
 					NodeList<Arco> actAdj=  adj.getFirstNode();
 					VOWay actElement=(VOWay) actAdj.getelem().getInfoArco();
@@ -356,7 +359,7 @@ public class Controller {
 
 
 			writer.close();
-			System.out.println("Archivo Json guardado correctamente");
+			System.out.println("Archivo Json guardado correctamente con"+i);
 			//
 			// ARCOS (Opci�n 2 guardarlos por aparte)
 			//

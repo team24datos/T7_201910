@@ -47,6 +47,16 @@ public class Grafo <K extends Comparable<K>, V, A extends Comparable<A>> impleme
 	{
 		return cantEnlaces;
 	}
+	
+	public TablaHash<K, Vertice> vertices()
+	{
+		return vertices;
+	}
+	
+	public int numVerticesTH()
+	{
+		return vertices.size();
+	}
 
 	public void addVertex(K idVertex, V infoVertex) 
 	{
