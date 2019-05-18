@@ -309,7 +309,7 @@ public class Controller {
 			//
 			writer.beginArray();
 			//writer.name("VERTICES");
-			//Algo esta pasando con el iterador de vertices Revisar si hay tiempo
+			//TODO Algo esta pasando con el iterador de vertices Revisar si hay tiempo
 			Iterator<Vertice>  itVertices = grafo.iteratorVertices();
 
 			while(itVertices.hasNext())
