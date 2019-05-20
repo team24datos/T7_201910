@@ -171,7 +171,7 @@ public class Counter
     protected long fOtherCharacters;
     
     /** Grafo donde se mete la información del documento xml" */
-    private static Grafo<Long, VOIntersections, VOWay> grafo;
+    private static Graph<Long, VOIntersections, VOWay> grafo;
     
     /** Arreglo dinámico donde se ponen todos los nodos que leen después de way. */
     private ArrayList<Long> arregloNodos;
@@ -192,7 +192,7 @@ public class Counter
     /** Default constructor. */
     public Counter() {
     	
-    	grafo = new Grafo<Long, VOIntersections, VOWay>();
+    	grafo = new Graph<Long, VOIntersections, VOWay>();
     	arregloNodos = new ArrayList<Long>();
     	idWay = 0; 
     	ok = false;
@@ -356,7 +356,7 @@ public class Counter
     //
 
     /** Main program entry point. */
-    public  Grafo<Long, VOIntersections, VOWay> load(String argv[]) {
+    public  Graph<Long, VOIntersections, VOWay> load(String argv[]) {
 
         // is there anything to do?
         if (argv.length == 0) {

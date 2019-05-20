@@ -1,6 +1,7 @@
 package controller;
 
 import java.awt.BorderLayout;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -26,8 +27,9 @@ import Mapa.Mapa;
 import model.data_structures.ArregloDinamico;
 import model.data_structures.BST;
 import model.data_structures.Grafo;
-import model.data_structures.Grafo.Arco;
-import model.data_structures.Grafo.Vertice;
+import model.data_structures.Graph.Arco;
+import model.data_structures.Graph.Vertice;
+import model.data_structures.Graph;
 import model.data_structures.IQueue;
 import model.data_structures.IStack;
 import model.data_structures.LinkedList;
@@ -53,9 +55,9 @@ public class Controller {
 	private MovingViolationsManagerView view;
 
 	/** Grafo donde se almacena toda la red vial de Washington con arcos de tipo highway */
-	private static Grafo grafo;
+	private static Graph grafo;
 	
-	private Grafo grafoJson;
+	private Graph grafoJson;
 	// Constructor -------------------------------------------------------------------
 
 	/**
@@ -64,7 +66,7 @@ public class Controller {
 	public Controller() {
 		view = new MovingViolationsManagerView();
 		//grafo= new Grafo<Long,VOIntersections,VOWay>();
-		grafoJson = new Grafo<Long,VOIntersections,VOWay>();
+		grafoJson = new Graph<Long,VOIntersections,VOWay>();
 	}
 
 	// Métodos -----------------------------------------------------------------------------
@@ -298,7 +300,7 @@ public class Controller {
 		JsonWriter writer;
 		int i=0;
 		System.out.println("Cantidad V: "+grafo.V()+" Cantidad E: "+grafo.E());
-		System.out.println("Cantidad V: "+grafo.numVerticesTH());
+		//System.out.println("Cantidad V: "+grafo.numVerticesTH());
 		try
 		{
 
@@ -356,8 +358,7 @@ public class Controller {
 			}
 			writer.endArray();
 			//writer.endObject();
-
-
+			
 			writer.close();
 			System.out.println("Archivo Json guardado correctamente con"+i);
 			//
